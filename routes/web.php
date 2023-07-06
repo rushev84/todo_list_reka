@@ -14,4 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/lists', [ListController::class, 'index']);
+Route::get('/lists/{id}', [ListController::class, 'show']);

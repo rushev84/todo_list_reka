@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 
 class ListController extends Controller
 {
-    public function index()
+    public function show()
     {
-        return view('list.index');
+        return view('list.show');
     }
 }
