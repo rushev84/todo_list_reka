@@ -5,11 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <style>
         @media (min-width: 600px) {
             .container {
                 max-width: 500px;
             }
+        }
+        .editing {
+            border: 2px solid green;
+            padding: 4px;
         }
     </style>
 </head>
@@ -27,18 +33,59 @@
 
     <ul class="list-group mt-3">
         @foreach($items as $item)
-            <li class="list-group-item">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox">
-                    <label class="form-check-label">{{ $item->name }}</label>
+            <li class="list-group-item d-flex align-items-center justify-content-between">
+                <div class="editable" contenteditable="true" data-item-id="{{ $item->id }}">{{ $item->name }}</div>
+                <div>
+                    <button class="btn btn-success mr-2 edit-btn">Изменить</button>
+                    <button class="btn btn-success save-btn d-none">Сохранить</button>
+                    <button class="btn btn-danger">Удалить</button>
                 </div>
             </li>
         @endforeach
     </ul>
+
 </div>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('.edit-btn').click(function() {
+            var listItem = $(this).closest('li');
+            var editableDiv = listItem.find('.editable');
+            var editBtn = listItem.find('.edit-btn');
+            var saveBtn = listItem.find('.save-btn');
+
+            // Включаем режим редактирования
+            editableDiv.attr('contenteditable', 'true');
+            editableDiv.addClass('editing');
+
+            // Показываем кнопку "Сохранить" и скрываем кнопку "Изменить"
+            editBtn.addClass('d-none');
+            saveBtn.removeClass('d-none');
+        });
+
+        $('.save-btn').click(function() {
+            var listItem = $(this).closest('li');
+            var editableDiv = listItem.find('.editable');
+            var editBtn = listItem.find('.edit-btn');
+            var saveBtn = listItem.find('.save-btn');
+
+            // Выключаем режим редактирования
+            editableDiv.attr('contenteditable', 'false');
+            editableDiv.removeClass('editing');
+
+            // Обновляем текст элемента списка с текстом из редактируемого div
+            var newText = editableDiv.text();
+            listItem.find('.editable').text(newText);
+
+            // Показываем кнопку "Изменить" и скрываем кнопку "Сохранить"
+            editBtn.removeClass('d-none');
+            saveBtn.addClass('d-none');
+        });
+    });
+</script>
 </body>
 </html>
 
