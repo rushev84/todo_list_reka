@@ -25,10 +25,6 @@
         </div>
     </form>
 
-
-
-
-
     <ul class="list-group mt-3">
         @foreach($items as $item)
             <li class="list-group-item">

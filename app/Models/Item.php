@@ -10,7 +10,7 @@ class Item extends Model
     use HasFactory;
 
     protected $fillable = [
-        'list_id',
+        'roster_id',
         'name', 'description',
         'completed',
         'due_date',
