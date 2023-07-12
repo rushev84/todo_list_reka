@@ -18,3 +18,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/rosters/{id}', [RosterController::class, 'show']);
 
 Route::post('/items/store', [ItemController::class, 'store']);
+Route::post('/items/delete', [ItemController::class, 'delete']);

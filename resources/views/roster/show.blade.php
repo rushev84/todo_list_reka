@@ -38,7 +38,7 @@
                 <div>
                     <button class="btn btn-primary mr-2 edit-btn">Изменить</button>
                     <button class="btn btn-primary save-btn d-none">Сохранить</button>
-                    <button class="btn btn-success">Выполнено!</button>
+                    <button class="btn btn-success delete-btn" data-item-id="{{ $item->id }}">Выполнено!</button>
                 </div>
             </li>
         @endforeach
@@ -105,6 +105,33 @@
             editBtn.removeClass('d-none');
             saveBtn.addClass('d-none');
         });
+
+        $('.delete-btn').click(function() {
+            var listItem = $(this).closest('li');
+            var itemId = $(this).data('item-id');
+
+            // Выполняем ajax-запрос для удаления элемента из базы данных
+            $.ajax({
+                url: '/items/delete',
+                type: 'POST',
+                data: {
+                    itemId: itemId,
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function(response) {
+                    // Обработка успешного ответа от сервера
+                    // ...
+
+                    // Удаляем элемент из списка
+                    listItem.remove();
+                },
+                error: function(xhr, status, error) {
+                    // Обработка ошибки
+                    // ...
+                }
+            });
+        });
+
 
     });
 </script>

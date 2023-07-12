@@ -20,4 +20,18 @@ class ItemController extends Controller
             ->json(['success' => true])
             ->header('Content-Type', 'application/json');
     }
+
+    public function delete(Request $request)
+    {
+        $itemId = $request->input('itemId');
+
+        $item = Item::find($itemId);
+
+        $item->delete();
+
+        return response()
+            ->json(['success' => true])
+            ->header('Content-Type', 'application/json');
+    }
+
 }
