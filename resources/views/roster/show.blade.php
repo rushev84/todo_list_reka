@@ -83,7 +83,7 @@
 
                 // Выполняем ajax-запрос
                 $.ajax({
-                    url: '/items/store',
+                    url: '/items/update',
                     type: 'POST',
                     data: {
                         itemId: itemId,

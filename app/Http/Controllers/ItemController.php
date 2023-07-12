@@ -24,7 +24,7 @@ class ItemController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function update(Request $request)
     {
         $itemId = $request->input('itemId');
         $newText = $request->input('newText');
