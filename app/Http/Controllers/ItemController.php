@@ -7,6 +7,23 @@ use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
+    public function create(Request $request)
+    {
+        $itemInput = $request->input('itemInput');
+        $rosterId = $request->input('rosterId');
+
+        $item = new Item;
+        $item->name = $itemInput;
+        $item->roster_id = $rosterId;
+        $item->save();
+
+        // Возвращаем успешный ответ с идентификатором новой записи
+        return response()
+            ->json(['success' => true, 'itemId' => $item->id])
+            ->header('Content-Type', 'application/json');
+    }
+
+
     public function store(Request $request)
     {
         $itemId = $request->input('itemId');

@@ -24,7 +24,7 @@
     <h1>{{ $roster->name }}</h1>
     <form class="d-flex">
         <div class="mb-3 me-2 flex-grow-1">
-            <input type="text" class="form-control" placeholder="Название задачи">
+            <input type="text" id="itemInput" class="form-control" placeholder="Название задачи">
         </div>
         <div>
             <button type="submit" class="btn btn-success">Добавить задачу</button>
@@ -51,79 +51,130 @@
 
 <script>
     $(document).ready(function() {
-        $('.edit-btn').click(function() {
-            var listItem = $(this).closest('li');
-            var editableDiv = listItem.find('.editable');
-            var editBtn = listItem.find('.edit-btn');
-            var saveBtn = listItem.find('.save-btn');
 
-            // Включаем режим редактирования
-            editableDiv.attr('contenteditable', 'true');
-            editableDiv.addClass('editing');
+        // Функция для привязки обработчиков событий к кнопкам
+        function attachEventHandlers() {
+            $('.edit-btn').click(function () {
+                var listItem = $(this).closest('li');
+                var editableDiv = listItem.find('.editable');
+                var editBtn = listItem.find('.edit-btn');
+                var saveBtn = listItem.find('.save-btn');
 
-            // Показываем кнопку "Сохранить" и скрываем кнопку "Изменить"
-            editBtn.addClass('d-none');
-            saveBtn.removeClass('d-none');
-        });
+                // Включаем режим редактирования
+                editableDiv.attr('contenteditable', 'true');
+                editableDiv.addClass('editing');
 
-        $('.save-btn').click(function() {
-            var listItem = $(this).closest('li');
-            var editableDiv = listItem.find('.editable');
-            var editBtn = listItem.find('.edit-btn');
-            var saveBtn = listItem.find('.save-btn');
-            var itemId = editableDiv.data('item-id');
-            var newText = editableDiv.text();
+                // Показываем кнопку "Сохранить" и скрываем кнопку "Изменить"
+                editBtn.addClass('d-none');
+                saveBtn.removeClass('d-none');
+            });
 
-            // Выключаем режим редактирования
-            editableDiv.attr('contenteditable', 'false');
-            editableDiv.removeClass('editing');
+            $('.save-btn').click(function () {
+                var listItem = $(this).closest('li');
+                var editableDiv = listItem.find('.editable');
+                var editBtn = listItem.find('.edit-btn');
+                var saveBtn = listItem.find('.save-btn');
+                var itemId = editableDiv.data('item-id');
+                var newText = editableDiv.text();
 
-            // Выполняем ajax-запрос
+                // Выключаем режим редактирования
+                editableDiv.attr('contenteditable', 'false');
+                editableDiv.removeClass('editing');
+
+                // Выполняем ajax-запрос
+                $.ajax({
+                    url: '/items/store',
+                    type: 'POST',
+                    data: {
+                        itemId: itemId,
+                        newText: newText,
+                        _token: '{{ csrf_token() }}',
+                    },
+                    success: function (response) {
+                        // Обработка успешного ответа от сервера
+                        // ...
+                        // console.log(response)
+                    },
+                    error: function (xhr, status, error) {
+                        // Обработка ошибки
+                        // ...
+                    }
+                });
+
+                // Обновляем текст элемента списка с текстом из редактируемого div
+                listItem.find('.editable').text(newText);
+
+                // Показываем кнопку "Изменить" и скрываем кнопку "Сохранить"
+                editBtn.removeClass('d-none');
+                saveBtn.addClass('d-none');
+            });
+
+            $('.delete-btn').click(function () {
+                var listItem = $(this).closest('li');
+                var itemId = $(this).data('item-id');
+
+                // Выполняем ajax-запрос для удаления элемента из базы данных
+                $.ajax({
+                    url: '/items/delete',
+                    type: 'POST',
+                    data: {
+                        itemId: itemId,
+                        _token: '{{ csrf_token() }}',
+                    },
+                    success: function (response) {
+                        // Обработка успешного ответа от сервера
+                        // ...
+
+                        // Удаляем элемент из списка
+                        listItem.remove();
+                    },
+                    error: function (xhr, status, error) {
+                        // Обработка ошибки
+                        // ...
+                    }
+                });
+            });
+        }
+
+        // Вызываем функцию для привязки обработчиков событий при загрузке страницы
+        attachEventHandlers();
+
+        $('form').submit(function(event) {
+            event.preventDefault();
+
+            var itemInput = $('#itemInput').val();
+
+            // console.log(itemInput)
+            // Выполняем AJAX-запрос для создания новой записи в базе данных
             $.ajax({
-                url: '/items/store',
+                url: '/items/create',
                 type: 'POST',
                 data: {
-                    itemId: itemId,
-                    newText: newText,
+                    itemInput: itemInput,
+                    rosterId: {{ $roster->id }},
                     _token: '{{ csrf_token() }}',
                 },
                 success: function(response) {
                     // Обработка успешного ответа от сервера
                     // ...
                     console.log(response)
-                },
-                error: function(xhr, status, error) {
-                    // Обработка ошибки
-                    // ...
-                }
-            });
 
-            // Обновляем текст элемента списка с текстом из редактируемого div
-            listItem.find('.editable').text(newText);
+                    // Очищаем поле ввода
+                    $('#itemInput').val('');
 
-            // Показываем кнопку "Изменить" и скрываем кнопку "Сохранить"
-            editBtn.removeClass('d-none');
-            saveBtn.addClass('d-none');
-        });
+                    // Добавляем новый элемент в список
+                    var newItem = '<li class="list-group-item d-flex align-items-center justify-content-between">' +
+                        '<div class="editable" contenteditable="true" data-item-id="' + response.itemId + '">' + itemInput + '</div>' +
+                        '<div>' +
+                        '<button class="btn btn-primary mr-2 edit-btn">Изменить</button>' +
+                        '<button class="btn btn-primary save-btn d-none">Сохранить</button>' +
+                        '<button class="btn btn-success delete-btn" data-item-id="' + response.itemId + '">Выполнено!</button>' +
+                        '</div>' +
+                        '</li>';
 
-        $('.delete-btn').click(function() {
-            var listItem = $(this).closest('li');
-            var itemId = $(this).data('item-id');
-
-            // Выполняем ajax-запрос для удаления элемента из базы данных
-            $.ajax({
-                url: '/items/delete',
-                type: 'POST',
-                data: {
-                    itemId: itemId,
-                    _token: '{{ csrf_token() }}',
-                },
-                success: function(response) {
-                    // Обработка успешного ответа от сервера
-                    // ...
-
-                    // Удаляем элемент из списка
-                    listItem.remove();
+                    $('.list-group').append(newItem);
+                    // После добавления нового элемента вызываем функцию для привязки обработчиков событий
+                    attachEventHandlers();
                 },
                 error: function(xhr, status, error) {
                     // Обработка ошибки
@@ -131,6 +182,15 @@
                 }
             });
         });
+
+
+
+
+
+
+
+
+
 
 
     });

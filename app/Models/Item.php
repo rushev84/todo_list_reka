@@ -12,8 +12,6 @@ class Item extends Model
     protected $fillable = [
         'roster_id',
         'name', 'description',
-        'completed',
-        'due_date',
     ];
 
     protected $hidden = [
