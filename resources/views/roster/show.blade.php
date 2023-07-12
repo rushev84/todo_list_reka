@@ -22,6 +22,7 @@
 <body>
 <div class="container">
     <h1>{{ $roster->name }}</h1>
+    <br>
     <form class="d-flex">
         <div class="mb-3 me-2 flex-grow-1">
             <input type="text" id="itemInput" class="form-control" placeholder="Название задачи">
