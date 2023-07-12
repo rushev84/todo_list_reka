@@ -20,8 +20,8 @@ class Item extends Model
         'created_at', 'updated_at',
     ];
 
-    public function list()
+    public function roster()
     {
-        return $this->belongsTo(TodoList::class);
+        return $this->belongsTo(Roster::class);
     }
 }

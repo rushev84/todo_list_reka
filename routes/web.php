@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ListController;
+use App\Http\Controllers\RosterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,4 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/lists/{id}', [ListController::class, 'show']);
+Route::get('/rosters/{id}', [RosterController::class, 'show']);
