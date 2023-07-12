@@ -167,8 +167,8 @@
                     var newItem = '<li class="list-group-item d-flex align-items-center justify-content-between">' +
                         '<div class="editable" contenteditable="true" data-item-id="' + response.itemId + '">' + itemInput + '</div>' +
                         '<div>' +
-                        '<button class="btn btn-primary mr-2 edit-btn">Изменить</button>' +
-                        '<button class="btn btn-primary save-btn d-none">Сохранить</button>' +
+                        '<button class="btn btn-primary mr-2 edit-btn">Изменить</button> ' +
+                        '<button class="btn btn-primary save-btn d-none">Сохранить</button> ' +
                         '<button class="btn btn-success delete-btn" data-item-id="' + response.itemId + '">Выполнено!</button>' +
                         '</div>' +
                         '</li>';
@@ -183,17 +183,6 @@
                 }
             });
         });
-
-
-
-
-
-
-
-
-
-
-
     });
 </script>
 </body>
