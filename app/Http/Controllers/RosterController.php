@@ -11,6 +11,10 @@ class RosterController extends Controller
     {
         $roster = Roster::find($id);
         $items = $roster->items;
-        return view('roster.show', ['items' => $items]);
+        return view('roster.show', [
+            'roster' => $roster,
+            'items' => $items,
+        ]);
     }
+
 }

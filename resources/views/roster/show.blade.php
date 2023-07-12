@@ -15,13 +15,19 @@
 </head>
 <body>
 <div class="container">
-    <h1>Todo List</h1>
-    <form>
-        <div class="mb-3">
-            <input type="text" class="form-control" placeholder="Add a new task">
+    <h1>{{ $roster->name }}</h1>
+    <form class="d-flex">
+        <div class="mb-3 me-2 flex-grow-1">
+            <input type="text" class="form-control" placeholder="Название задачи">
         </div>
-        <button type="submit" class="btn btn-primary">Add Task</button>
+        <div>
+            <button type="submit" class="btn btn-primary">Добавить задачу</button>
+        </div>
     </form>
+
+
+
+
 
     <ul class="list-group mt-3">
         @foreach($items as $item)
@@ -34,6 +40,7 @@
         @endforeach
     </ul>
 </div>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/js/bootstrap.min.js"></script>
 </body>
