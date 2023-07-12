@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('list_id');
-            $table->foreign('list_id')->references('id')->on('lists');
+            $table->unsignedBigInteger('roster_id');
+            $table->foreign('roster_id')->references('id')->on('rosters');
             $table->string('name');
             $table->text('description')->nullable();
 
@@ -25,6 +25,7 @@ return new class extends Migration
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

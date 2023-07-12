@@ -11,22 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lists', function (Blueprint $table) {
-            $table->id();
+        Schema::create('item_tag', function (Blueprint $table) {
+            $table->unsignedBigInteger('item_id');
+            $table->unsignedBigInteger('tag_id');
 
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->string('name');
+            $table->primary(['item_id', 'tag_id']);
+
+            $table->foreign('item_id')->references('id')->on('items');
+            $table->foreign('tag_id')->references('id')->on('tags');
 
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('lists');
+        Schema::dropIfExists('item_tag');
     }
 };

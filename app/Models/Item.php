@@ -19,4 +19,9 @@ class Item extends Model
     protected $hidden = [
         'created_at', 'updated_at',
     ];
+
+    public function list()
+    {
+        return $this->belongsTo(TodoList::class);
+    }
 }
