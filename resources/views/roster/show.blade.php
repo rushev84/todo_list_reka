@@ -80,17 +80,17 @@
 
             // Выполняем ajax-запрос
             $.ajax({
-                url: '/items/store', // Замените на ваш роут
-                type: 'POST', // Измените на нужный HTTP-метод
+                url: '/items/store',
+                type: 'POST',
                 data: {
                     itemId: itemId,
                     newText: newText,
                     _token: '{{ csrf_token() }}',
                 },
                 success: function(response) {
-                    console.log('success')
                     // Обработка успешного ответа от сервера
                     // ...
+                    console.log(response)
                 },
                 error: function(xhr, status, error) {
                     // Обработка ошибки

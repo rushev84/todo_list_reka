@@ -16,7 +16,8 @@ class ItemController extends Controller
         $item->name = $newText;
         $item->save();
 
-        // Возвращаем успешный ответ
-        return response()->json(['success' => true]);
+        return response()
+            ->json(['success' => true])
+            ->header('Content-Type', 'application/json');
     }
 }
