@@ -27,7 +27,7 @@
             <input type="text" class="form-control" placeholder="Название задачи">
         </div>
         <div>
-            <button type="submit" class="btn btn-primary">Добавить задачу</button>
+            <button type="submit" class="btn btn-success">Добавить задачу</button>
         </div>
     </form>
 
@@ -36,9 +36,9 @@
             <li class="list-group-item d-flex align-items-center justify-content-between">
                 <div class="editable" contenteditable="true" data-item-id="{{ $item->id }}">{{ $item->name }}</div>
                 <div>
-                    <button class="btn btn-success mr-2 edit-btn">Изменить</button>
-                    <button class="btn btn-success save-btn d-none">Сохранить</button>
-                    <button class="btn btn-danger">Удалить</button>
+                    <button class="btn btn-primary mr-2 edit-btn">Изменить</button>
+                    <button class="btn btn-primary save-btn d-none">Сохранить</button>
+                    <button class="btn btn-success">Выполнено!</button>
                 </div>
             </li>
         @endforeach
