@@ -22,25 +22,16 @@
         </div>
         <button type="submit" class="btn btn-primary">Add Task</button>
     </form>
+
     <ul class="list-group mt-3">
-        <li class="list-group-item">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox">
-                <label class="form-check-label">Task 1</label>
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox">
-                <label class="form-check-label">Task 2</label>
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox">
-                <label class="form-check-label">Task 3</label>
-            </div>
-        </li>
+        @foreach($items as $item)
+            <li class="list-group-item">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox">
+                    <label class="form-check-label">{{ $item->name }}</label>
+                </div>
+            </li>
+        @endforeach
     </ul>
 </div>
 
