@@ -71,19 +71,41 @@
             var editableDiv = listItem.find('.editable');
             var editBtn = listItem.find('.edit-btn');
             var saveBtn = listItem.find('.save-btn');
+            var itemId = editableDiv.data('item-id');
+            var newText = editableDiv.text();
 
             // Выключаем режим редактирования
             editableDiv.attr('contenteditable', 'false');
             editableDiv.removeClass('editing');
 
+            // Выполняем ajax-запрос
+            $.ajax({
+                url: '/items/store', // Замените на ваш роут
+                type: 'POST', // Измените на нужный HTTP-метод
+                data: {
+                    itemId: itemId,
+                    newText: newText,
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function(response) {
+                    console.log('success')
+                    // Обработка успешного ответа от сервера
+                    // ...
+                },
+                error: function(xhr, status, error) {
+                    // Обработка ошибки
+                    // ...
+                }
+            });
+
             // Обновляем текст элемента списка с текстом из редактируемого div
-            var newText = editableDiv.text();
             listItem.find('.editable').text(newText);
 
             // Показываем кнопку "Изменить" и скрываем кнопку "Сохранить"
             editBtn.removeClass('d-none');
             saveBtn.addClass('d-none');
         });
+
     });
 </script>
 </body>
