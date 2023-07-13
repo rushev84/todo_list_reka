@@ -21,7 +21,7 @@
 </head>
 <body>
 <div class="container">
-    <a href="{{ route('rosters.index') }}">Назад к спискам</a>
+    <a href="{{ route('rosters.index') }}">Назад к листам</a>
     <br><br>
     <h1>{{ $roster->name }}</h1>
     <br>
