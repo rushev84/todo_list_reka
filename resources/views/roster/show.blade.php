@@ -21,6 +21,8 @@
 </head>
 <body>
 <div class="container">
+    <a href="{{ route('rosters.index') }}">Назад к спискам</a>
+    <br><br>
     <h1>{{ $roster->name }}</h1>
     <br>
     <form class="d-flex">
@@ -56,10 +58,10 @@
         // Функция для привязки обработчиков событий к кнопкам
         function attachEventHandlers() {
             $('.edit-btn').click(function () {
-                var listItem = $(this).closest('li');
-                var editableDiv = listItem.find('.editable');
-                var editBtn = listItem.find('.edit-btn');
-                var saveBtn = listItem.find('.save-btn');
+                let listItem = $(this).closest('li');
+                let editableDiv = listItem.find('.editable');
+                let editBtn = listItem.find('.edit-btn');
+                let saveBtn = listItem.find('.save-btn');
 
                 // Включаем режим редактирования
                 editableDiv.attr('contenteditable', 'true');
@@ -71,12 +73,12 @@
             });
 
             $('.save-btn').click(function () {
-                var listItem = $(this).closest('li');
-                var editableDiv = listItem.find('.editable');
-                var editBtn = listItem.find('.edit-btn');
-                var saveBtn = listItem.find('.save-btn');
-                var itemId = editableDiv.data('item-id');
-                var newText = editableDiv.text();
+                let listItem = $(this).closest('li');
+                let editableDiv = listItem.find('.editable');
+                let editBtn = listItem.find('.edit-btn');
+                let saveBtn = listItem.find('.save-btn');
+                let itemId = editableDiv.data('item-id');
+                let newText = editableDiv.text();
 
                 // Выключаем режим редактирования
                 editableDiv.attr('contenteditable', 'false');
@@ -111,8 +113,8 @@
             });
 
             $('.delete-btn').click(function () {
-                var listItem = $(this).closest('li');
-                var itemId = $(this).data('item-id');
+                let listItem = $(this).closest('li');
+                let itemId = $(this).data('item-id');
 
                 // Выполняем ajax-запрос для удаления элемента из базы данных
                 $.ajax({
@@ -143,7 +145,7 @@
         $('form').submit(function(event) {
             event.preventDefault();
 
-            var itemInput = $('#itemInput').val();
+            let itemInput = $('#itemInput').val();
 
             // console.log(itemInput)
             // Выполняем AJAX-запрос для создания новой записи в базе данных
@@ -164,14 +166,15 @@
                     $('#itemInput').val('');
 
                     // Добавляем новый элемент в список
-                    var newItem = '<li class="list-group-item d-flex align-items-center justify-content-between">' +
-                        '<div class="editable" contenteditable="true" data-item-id="' + response.itemId + '">' + itemInput + '</div>' +
-                        '<div>' +
-                        '<button class="btn btn-primary mr-2 edit-btn">Изменить</button> ' +
-                        '<button class="btn btn-primary save-btn d-none">Сохранить</button> ' +
-                        '<button class="btn btn-success delete-btn" data-item-id="' + response.itemId + '">Выполнено!</button>' +
-                        '</div>' +
-                        '</li>';
+
+                    let newItem = `<li class="list-group-item d-flex align-items-center justify-content-between">
+                        <div class="editable" contenteditable="true" data-item-id="${response.itemId}">${itemInput}</div>
+                        <div>
+                            <button class="btn btn-primary mr-2 edit-btn">Изменить</button>
+                            <button class="btn btn-primary save-btn d-none">Сохранить</button>
+                            <button class="btn btn-success delete-btn" data-item-id="${response.itemId}">Выполнено!</button>
+                        </div>
+                    </li>`;
 
                     $('.list-group').append(newItem);
                     // После добавления нового элемента вызываем функцию для привязки обработчиков событий

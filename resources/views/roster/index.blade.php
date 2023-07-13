@@ -29,7 +29,7 @@
     <br>
     <form class="d-flex">
         <div class="mb-3 me-2 flex-grow-1">
-            <input type="text" id="rosterInput" class="form-control" placeholder="Название списка">
+            <input type="text" id="name" class="form-control" placeholder="Название списка">
         </div>
         <div>
             <button type="submit" class="btn btn-success">Добавить список</button>
@@ -39,7 +39,9 @@
     <ul class="list-group mt-3">
         @foreach($rosters as $roster)
             <li class="list-group-item d-flex align-items-center justify-content-between">
-                <div class="editable" data-roster-id="{{ $roster->id }}"><a href="{{ route('rosters.show', $roster->id) }}">{{ $roster->name }}</a></div>
+                <div class="editable" data-roster-id="{{ $roster->id }}">
+                    <a href="{{ route('rosters.show', $roster->id) }}">{{ $roster->name }}</a>
+                </div>
                 <div>
                     <button class="btn btn-success delete-btn" data-roster-id="{{ $roster->id }}">Выполнено!</button>
                 </div>
@@ -58,8 +60,8 @@
         // Функция для привязки обработчиков событий к кнопкам
         function attachEventHandlers() {
             $('.delete-btn').click(function () {
-                var listRoster = $(this).closest('li');
-                var rosterId = $(this).data('roster-id');
+                let listRoster = $(this).closest('li');
+                let rosterId = $(this).data('roster-id');
 
                 // Выполняем ajax-запрос для удаления элемента из базы данных
                 $.ajax({
@@ -86,6 +88,55 @@
 
         // Вызываем функцию для привязки обработчиков событий при загрузке страницы
         attachEventHandlers();
+
+        $('form').submit(function(event) {
+            event.preventDefault();
+
+            let name = $('#name').val();
+
+            // Выполняем AJAX-запрос для создания новой записи в базе данных
+            $.ajax({
+                url: '/rosters/create',
+                type: 'POST',
+                data: {
+                    name: name,
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function(response) {
+                    // Обработка успешного ответа от сервера
+                    // ...
+                    console.log(response)
+
+                    // Очищаем поле ввода
+                    $('#name').val('');
+
+
+                    let route = '{{ route('rosters.show', 'slug') }}';
+                    let rosterId = response.rosterId;
+
+                    route = route.replace("slug", rosterId);
+
+                    // Добавляем новый элемент в список
+                    let newRoster = `<li class="list-group-item d-flex align-items-center justify-content-between">
+                        <div class="editable" data-roster-id="${rosterId}">
+                            <a href=${route}>${name}</a>
+                        </div>
+                        <div>
+                            <button class="btn btn-success delete-btn" data-roster-id="${rosterId}">Выполнено!</button>
+                        </div>
+                    </li>`;
+
+
+                    $('.list-group').append(newRoster);
+                    // После добавления нового элемента вызываем функцию для привязки обработчиков событий
+                    attachEventHandlers();
+                },
+                error: function(xhr, status, error) {
+                    // Обработка ошибки
+                    // ...
+                }
+            });
+        });
 
         });
 </script>
