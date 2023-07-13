@@ -44,6 +44,14 @@
         </div>
     </form>
 
+    <form class="mb-3">
+        <div class="input-group">
+            <input type="text" id="searchInput" class="form-control" placeholder="Поиск...">
+            <button type="submit" class="btn btn-primary">Найти</button>
+        </div>
+    </form>
+
+
     <ul class="list-group mt-3">
         @foreach($items as $item)
             <li class="list-group-item d-flex align-items-center justify-content-between">
