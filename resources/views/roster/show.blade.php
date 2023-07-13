@@ -14,7 +14,7 @@
             }
         }
         .editing {
-            border: 2px solid green;
+            border: 2px solid #000;
             padding: 4px;
         }
     </style>
@@ -23,14 +23,24 @@
 <div class="container">
     <a href="{{ route('rosters.index') }}">Назад к листам</a>
     <br><br>
-    <h1>{{ $roster->name }}</h1>
-    <br>
-    <form class="d-flex">
-        <div class="mb-3 me-2 flex-grow-1">
-            <input type="text" id="itemInput" class="form-control" placeholder="Название задачи">
+
+    <div class="d-flex align-items-center justify-content-between">
+        <div>
+            <h1 class="editable-header">{{ $roster->name }}</h1>
         </div>
         <div>
-            <button type="submit" class="btn btn-success">Добавить задачу</button>
+            <button class="btn btn-secondary mr-2 edit-header-btn">Переименовать</button>
+            <button class="btn btn-dark save-header-btn d-none">Сохранить</button>
+        </div>
+    </div>
+    <br>
+
+    <form class="d-flex">
+        <div class="mb-3 me-2 flex-grow-1">
+            <input type="text" id="itemInput" class="form-control border-primary" placeholder="Название задачи">
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">Добавить задачу</button>
         </div>
     </form>
 
@@ -39,8 +49,8 @@
             <li class="list-group-item d-flex align-items-center justify-content-between">
                 <div class="editable" data-item-id="{{ $item->id }}">{{ $item->name }}</div>
                 <div>
-                    <button class="btn btn-primary mr-2 edit-btn">Переименовать</button>
-                    <button class="btn btn-primary save-btn d-none">Сохранить</button>
+                    <button class="btn btn-secondary mr-2 edit-btn">Переименовать</button>
+                    <button class="btn btn-dark save-btn d-none">Сохранить</button>
                     <button class="btn btn-success delete-btn" data-item-id="{{ $item->id }}">Выполнено!</button>
                 </div>
             </li>
@@ -60,6 +70,7 @@
             $('.edit-btn').click(function () {
                 let listItem = $(this).closest('li');
                 let editableDiv = listItem.find('.editable');
+
                 let editBtn = listItem.find('.edit-btn');
                 let saveBtn = listItem.find('.save-btn');
 
@@ -137,6 +148,63 @@
                     }
                 });
             });
+
+            $('.edit-header-btn').click(function () {
+
+                let editableDiv = $(".editable-header");
+                console.log(editableDiv)
+
+                let editHeaderBtn = $(".edit-header-btn");
+                let saveHeaderBtn = $(".save-header-btn");
+
+                // Включаем режим редактирования
+                editableDiv.attr('contenteditable', 'true');
+                editableDiv.addClass('editing');
+
+                // Показываем кнопку "Сохранить" и скрываем кнопку "Переименовать"
+                editHeaderBtn.addClass('d-none');
+                saveHeaderBtn.removeClass('d-none');
+            });
+
+            $('.save-header-btn').click(function () {
+                let editableDiv = $(".editable-header");
+                let editHeaderBtn = $(".edit-header-btn");
+                let saveHeaderBtn = $(".save-header-btn");
+                let newText = editableDiv.text();
+
+                // Выключаем режим редактирования
+                editableDiv.attr('contenteditable', 'false');
+                editableDiv.removeClass('editing');
+
+                // Выполняем ajax-запрос
+                $.ajax({
+                    url: '/rosters/update',
+                    type: 'POST',
+                    data: {
+                        rosterId: {{ $roster->id }},
+                        newText: newText,
+                        _token: '{{ csrf_token() }}',
+                    },
+                    success: function (response) {
+                        // Обработка успешного ответа от сервера
+                        // ...
+                        // console.log(response)
+                    },
+                    error: function (xhr, status, error) {
+                        // Обработка ошибки
+                        // ...
+                    }
+                });
+
+                // Обновляем текст заголовка с текстом из редактируемого div
+                editableDiv.text(newText);
+
+                // Показываем кнопку "Переименовать" и скрываем кнопку "Сохранить"
+                editHeaderBtn.removeClass('d-none');
+                saveHeaderBtn.addClass('d-none');
+            });
+
+
         }
 
         // Вызываем функцию для привязки обработчиков событий при загрузке страницы
@@ -168,10 +236,10 @@
                     // Добавляем новый элемент в список
 
                     let newItem = `<li class="list-group-item d-flex align-items-center justify-content-between">
-                        <div class="editable" contenteditable="true" data-item-id="${response.itemId}">${itemInput}</div>
+                        <div class="editable" data-item-id="${response.itemId}">${itemInput}</div>
                         <div>
-                            <button class="btn btn-primary mr-2 edit-btn">Переименовать</button>
-                            <button class="btn btn-primary save-btn d-none">Сохранить</button>
+                            <button class="btn btn-secondary mr-2 edit-btn">Переименовать</button>
+                            <button class="btn btn-dark save-btn d-none">Сохранить</button>
                             <button class="btn btn-success delete-btn" data-item-id="${response.itemId}">Выполнено!</button>
                         </div>
                     </li>`;

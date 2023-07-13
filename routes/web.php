@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/rosters', [RosterController::class, 'index'])->name('rosters.index');
 Route::get('/rosters/{id}', [RosterController::class, 'show'])->name('rosters.show');
 Route::post('/rosters/create', [RosterController::class, 'create'])->name('rosters.create');
+Route::post('/rosters/update', [RosterController::class, 'update'])->name('rosters.update');
 Route::post('/rosters/delete', [RosterController::class, 'delete'])->name('rosters.delete');
 
 Route::post('/items/create', [ItemController::class, 'create'])->name('items.create');

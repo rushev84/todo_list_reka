@@ -29,10 +29,10 @@
     <br>
     <form class="d-flex">
         <div class="mb-3 me-2 flex-grow-1">
-            <input type="text" id="name" class="form-control" placeholder="Название списка">
+            <input type="text" id="name" class="form-control border-primary" placeholder="Название списка">
         </div>
         <div>
-            <button type="submit" class="btn btn-success">Добавить список</button>
+            <button type="submit" class="btn btn-primary">Добавить список</button>
         </div>
     </form>
 

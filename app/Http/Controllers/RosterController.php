@@ -32,6 +32,20 @@ class RosterController extends Controller
             ->header('Content-Type', 'application/json');
     }
 
+    public function update(Request $request)
+    {
+        $rosterId = $request->input('rosterId');
+        $newText = $request->input('newText');
+
+        $roster = Roster::find($rosterId);
+        $roster->name = $newText;
+        $roster->save();
+
+        return response()
+            ->json(['success' => true])
+            ->header('Content-Type', 'application/json');
+    }
+
     public function show($id)
     {
         $roster = Roster::find($id);
