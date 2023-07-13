@@ -8,9 +8,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style>
-        @media (min-width: 600px) {
+        @media (min-width: 800px) {
             .container {
-                max-width: 500px;
+                max-width: 700px;
             }
         }
         .editing {
@@ -39,7 +39,7 @@
             <li class="list-group-item d-flex align-items-center justify-content-between">
                 <div class="editable" data-item-id="{{ $item->id }}">{{ $item->name }}</div>
                 <div>
-                    <button class="btn btn-primary mr-2 edit-btn">Изменить</button>
+                    <button class="btn btn-primary mr-2 edit-btn">Переименовать</button>
                     <button class="btn btn-primary save-btn d-none">Сохранить</button>
                     <button class="btn btn-success delete-btn" data-item-id="{{ $item->id }}">Выполнено!</button>
                 </div>
@@ -67,7 +67,7 @@
                 editableDiv.attr('contenteditable', 'true');
                 editableDiv.addClass('editing');
 
-                // Показываем кнопку "Сохранить" и скрываем кнопку "Изменить"
+                // Показываем кнопку "Сохранить" и скрываем кнопку "Переименовать"
                 editBtn.addClass('d-none');
                 saveBtn.removeClass('d-none');
             });
@@ -107,7 +107,7 @@
                 // Обновляем текст элемента списка с текстом из редактируемого div
                 listItem.find('.editable').text(newText);
 
-                // Показываем кнопку "Изменить" и скрываем кнопку "Сохранить"
+                // Показываем кнопку "Переименовать" и скрываем кнопку "Сохранить"
                 editBtn.removeClass('d-none');
                 saveBtn.addClass('d-none');
             });
@@ -170,7 +170,7 @@
                     let newItem = `<li class="list-group-item d-flex align-items-center justify-content-between">
                         <div class="editable" contenteditable="true" data-item-id="${response.itemId}">${itemInput}</div>
                         <div>
-                            <button class="btn btn-primary mr-2 edit-btn">Изменить</button>
+                            <button class="btn btn-primary mr-2 edit-btn">Переименовать</button>
                             <button class="btn btn-primary save-btn d-none">Сохранить</button>
                             <button class="btn btn-success delete-btn" data-item-id="${response.itemId}">Выполнено!</button>
                         </div>
