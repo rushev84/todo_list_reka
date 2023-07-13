@@ -28,7 +28,7 @@ class RosterController extends Controller
 
         // Возвращаем успешный ответ с идентификатором новой записи
         return response()
-            ->json(['success' => true, 'rosterId' => $roster->id])
+            ->json(['success' => true, 'id' => $roster->id])
             ->header('Content-Type', 'application/json');
     }
 
