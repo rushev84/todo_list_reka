@@ -43,7 +43,6 @@ class ItemController extends Controller
         $itemId = $request->input('itemId');
 
         $item = Item::find($itemId);
-
         $item->delete();
 
         return response()

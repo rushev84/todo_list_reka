@@ -35,7 +35,7 @@
     <ul class="list-group mt-3">
         @foreach($items as $item)
             <li class="list-group-item d-flex align-items-center justify-content-between">
-                <div class="editable" contenteditable="true" data-item-id="{{ $item->id }}">{{ $item->name }}</div>
+                <div class="editable" data-item-id="{{ $item->id }}">{{ $item->name }}</div>
                 <div>
                     <button class="btn btn-primary mr-2 edit-btn">Изменить</button>
                     <button class="btn btn-primary save-btn d-none">Сохранить</button>
