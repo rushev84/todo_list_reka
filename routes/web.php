@@ -25,15 +25,20 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/rosters', [RosterController::class, 'index'])->name('rosters.index');
-Route::get('/rosters/{id}', [RosterController::class, 'show'])->name('rosters.show');
-Route::post('/rosters/create', [RosterController::class, 'create'])->name('rosters.create');
-Route::post('/rosters/update', [RosterController::class, 'update'])->name('rosters.update');
-Route::post('/rosters/delete', [RosterController::class, 'delete'])->name('rosters.delete');
+Route::middleware('auth')->group(function () {
+    // web
+    Route::get('/rosters', [RosterController::class, 'index'])->name('rosters.index');
+    Route::get('/rosters/{id}', [RosterController::class, 'show'])->name('rosters.show');
 
-Route::post('/items/create', [ItemController::class, 'create'])->name('items.create');
-Route::post('/items/update', [ItemController::class, 'update'])->name('items.update');
-Route::post('/items/delete', [ItemController::class, 'delete'])->name('items.delete');
+    // ajax
+    Route::post('/rosters/create', [RosterController::class, 'create'])->name('rosters.create');
+    Route::post('/rosters/update', [RosterController::class, 'update'])->name('rosters.update');
+    Route::post('/rosters/delete', [RosterController::class, 'delete'])->name('rosters.delete');
 
-Route::post('/items/search', [ItemController::class, 'search'])->name('items.search');
+    Route::post('/items/create', [ItemController::class, 'create'])->name('items.create');
+    Route::post('/items/update', [ItemController::class, 'update'])->name('items.update');
+    Route::post('/items/delete', [ItemController::class, 'delete'])->name('items.delete');
+
+    Route::post('/items/search', [ItemController::class, 'search'])->name('items.search');
+});
 
