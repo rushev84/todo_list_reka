@@ -4,11 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Roster;
+use Illuminate\Support\Facades\Auth;
 
 class RosterController extends Controller
 {
     public function index()
     {
+//        $user = Auth::user();
+//
+//        if ($user) {
+//            dd($user);
+//        } else {
+//            dd(1111);
+//        }
+
         $rosters = Roster::all();
 
         return view('roster.index', [
