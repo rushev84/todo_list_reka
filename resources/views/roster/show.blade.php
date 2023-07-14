@@ -35,7 +35,7 @@
     </div>
     <br>
 
-    <form class="d-flex">
+    <form id="form_add_item" class="d-flex">
         <div class="mb-3 me-2 flex-grow-1">
             <input type="text" id="itemInput" class="form-control border-primary" placeholder="Название задачи">
         </div>
@@ -218,7 +218,7 @@
         // Вызываем функцию для привязки обработчиков событий при загрузке страницы
         attachEventHandlers();
 
-        $('form').submit(function(event) {
+        $('#form_add_item').submit(function(event) {
             event.preventDefault();
 
             let itemInput = $('#itemInput').val();
