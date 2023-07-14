@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style>
@@ -17,6 +19,48 @@
             border: 2px solid #000;
             padding: 4px;
         }
+
+        .delete-tag, .add-tag {
+            cursor: pointer;
+        }
+
+        .tag-list-container {
+            position: absolute;
+            top: 20px;
+            right: 215px;
+            z-index: 1;
+            background-color: #fff;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .tag-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tag-list li {
+            padding: 5px 10px;
+            margin-bottom: 5px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+        }
+
+        .tag-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .tag-list li:hover {
+            background-color: #e9e9e9;
+            cursor: pointer;
+        }
+
+
     </style>
 </head>
 <body>
@@ -56,22 +100,58 @@
         @foreach($items as $item)
             <li class="list-group-item d-flex align-items-center justify-content-between">
                 <div class="editable" data-item-id="{{ $item->id }}">{{ $item->name }}</div>
-                <div>
-                    <button class="btn btn-secondary mr-2 edit-btn">Переименовать</button>
-                    <button class="btn btn-dark save-btn d-none">Сохранить</button>
-                    <button class="btn btn-success delete-btn" data-item-id="{{ $item->id }}">Выполнено!</button>
+                <div class="d-flex align-items-center">
+                    <div class="tags mr-20">
+                        <span class="badge bg-info">Тег 1 <i class="fas fa-times delete-tag"></i></span>
+                        <span class="badge bg-info">Тег 2 <i class="fas fa-times delete-tag"></i></span>
+                        <span class="badge bg-info">Тег 2 <i class="fas fa-times delete-tag"></i></span>
+                        <span class="badge bg-primary plus-tag"><i class="fas fa-plus add-tag"></i></span>
+                    </div>
+                    <div class="tag-list-container" style="display: none;">
+                        <ul class="tag-list">
+                            <li>Тег 1</li>
+                            <li>Тег 2</li>
+                            <li>Тег 3</li>
+                            <!-- Добавьте остальные теги пользователя здесь -->
+                        </ul>
+                    </div>
+                    <div style="margin-left: 5px">
+                        <button class="btn btn-secondary edit-btn">Переименовать</button>
+                        <button class="btn btn-dark save-btn d-none">Сохранить</button>
+                        <button class="btn btn-success delete-btn" data-item-id="{{ $item->id }}">Выполнено!</button>
+                    </div>
                 </div>
             </li>
         @endforeach
     </ul>
 
+
+
+
 </div>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+
 
 <script>
     $(document).ready(function() {
+
+        $('.plus-tag').click(function () {
+            $(this).closest('.d-flex').find('.tag-list-container').toggle();
+        });
+
+        $('.tag-list li').click(function () {
+            $(this).closest('.tag-list-container').hide();
+        });
+
+        $(document).click(function(event) {
+            var target = $(event.target);
+            if (!target.closest('.tag-list-container').length && !target.closest('.plus-tag').length) {
+                $('.tag-list-container').hide();
+            }
+        });
 
         // Функция для привязки обработчиков событий к кнопкам
         function attachEventHandlers() {
