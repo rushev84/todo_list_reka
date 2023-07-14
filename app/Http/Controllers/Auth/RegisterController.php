@@ -28,6 +28,6 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect('/rosters'); // Здесь вы можете указать путь, на который хотите перенаправить пользователя после успешной регистрации.
+        return redirect('/rosters');
     }
 }
