@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [RegisterController::class, 'register']);
+Route::get('/register', [RegisterController::class, 'showRegistrationForm']);
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
 Route::get('/rosters', [RosterController::class, 'index'])->name('rosters.index');
 Route::get('/rosters/{id}', [RosterController::class, 'show'])->name('rosters.show');
