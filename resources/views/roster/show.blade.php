@@ -123,7 +123,7 @@
                     }
                 });
 
-                // Обновляем текст элемента списка с текстом из редактируемого div
+                // Обновляем текст элемента листа с текстом из редактируемого div
                 listItem.find('.editable').text(newText);
 
                 // Показываем кнопку "Переименовать" и скрываем кнопку "Сохранить"
@@ -147,7 +147,7 @@
                         // Обработка успешного ответа от сервера
                         // ...
 
-                        // Удаляем элемент из списка
+                        // Удаляем элемент из листа
                         listItem.remove();
                     },
                     error: function (xhr, status, error) {
@@ -240,7 +240,7 @@
                     // Очищаем поле ввода
                     $('#itemInput').val('');
 
-                    // Добавляем новый элемент в список
+                    // Добавляем новый элемент в лист
 
                     let newItem = `<li class="list-group-item d-flex align-items-center justify-content-between">
                         <div class="editable" data-item-id="${response.itemId}">${itemInput}</div>

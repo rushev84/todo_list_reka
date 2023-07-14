@@ -10,15 +10,10 @@ class RosterController extends Controller
 {
     public function index()
     {
-//        $user = Auth::user();
-//
-//        if ($user) {
-//            dd($user);
-//        } else {
-//            dd(1111);
-//        }
+        $user = Auth::user();
+        $rosters = $user->rosters;
 
-        $rosters = Roster::all();
+//        dd($user->id);
 
         return view('roster.index', [
             'rosters' => $rosters,
@@ -29,9 +24,10 @@ class RosterController extends Controller
     {
         $name = $request->input('name');
 
+        $user = Auth::user();
+
         $roster = new Roster;
-        // TODO!!!
-        $roster->user_id = 1;
+        $roster->user_id = $user->id;
         $roster->name = $name;
         $roster->save();
 
