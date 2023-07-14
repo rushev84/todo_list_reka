@@ -22,4 +22,9 @@ class Item extends Model
     {
         return $this->belongsTo(Roster::class);
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
 }

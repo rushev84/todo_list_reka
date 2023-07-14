@@ -61,9 +61,13 @@ class RosterController extends Controller
         $roster = Roster::find($id);
         $items = $roster->items;
 
+        $user = Auth::user();
+        $userTags = $user->tags;
+
         return view('roster.show', [
             'roster' => $roster,
             'items' => $items,
+            'userTags' => $userTags,
         ]);
     }
 

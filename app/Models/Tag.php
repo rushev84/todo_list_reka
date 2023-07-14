@@ -16,4 +16,14 @@ class Tag extends Model
     protected $hidden = [
         'created_at', 'updated_at',
     ];
+
+    public function items()
+    {
+        return $this->belongsToMany(Item::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

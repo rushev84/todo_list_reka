@@ -102,17 +102,16 @@
                 <div class="editable" data-item-id="{{ $item->id }}">{{ $item->name }}</div>
                 <div class="d-flex align-items-center">
                     <div class="tags mr-20">
-                        <span class="badge bg-info">Тег 1 <i class="fas fa-times delete-tag"></i></span>
-                        <span class="badge bg-info">Тег 2 <i class="fas fa-times delete-tag"></i></span>
-                        <span class="badge bg-info">Тег 2 <i class="fas fa-times delete-tag"></i></span>
+                        @foreach($item->tags as $tag)
+                            <span class="badge bg-info">{{ $tag->name }}&nbsp;<i class="fas fa-times delete-tag"></i></span>
+                        @endforeach
                         <span class="badge bg-primary plus-tag"><i class="fas fa-plus add-tag"></i></span>
                     </div>
                     <div class="tag-list-container" style="display: none;">
                         <ul class="tag-list">
-                            <li>Тег 1</li>
-                            <li>Тег 2</li>
-                            <li>Тег 3</li>
-                            <!-- Добавьте остальные теги пользователя здесь -->
+                            @foreach($userTags as $userTag)
+                                <li>{{ $userTag->name }}</li>
+                            @endforeach
                         </ul>
                     </div>
                     <div style="margin-left: 5px">
