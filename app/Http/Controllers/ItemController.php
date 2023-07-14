@@ -19,7 +19,10 @@ class ItemController extends Controller
 
         // Возвращаем успешный ответ с идентификатором новой записи
         return response()
-            ->json(['success' => true, 'itemId' => $item->id])
+            ->json([
+                'success' => true,
+                'itemId' => $item->id,
+            ])
             ->header('Content-Type', 'application/json');
     }
 
@@ -34,7 +37,9 @@ class ItemController extends Controller
         $item->save();
 
         return response()
-            ->json(['success' => true])
+            ->json([
+                'success' => true,
+            ])
             ->header('Content-Type', 'application/json');
     }
 
@@ -46,7 +51,27 @@ class ItemController extends Controller
         $item->delete();
 
         return response()
-            ->json(['success' => true])
+            ->json([
+                'success' => true,
+            ])
+            ->header('Content-Type', 'application/json');
+    }
+
+    public function search(Request $request)
+    {
+        $searchQuery = $request->input('searchQuery');
+        $rosterId = $request->input('rosterId');
+
+        // Выполняем поиск элементов в базе данных на основе поискового запроса и rosterId
+        $items = Item::where('roster_id', $rosterId)
+            ->where('name', 'like', '%' . $searchQuery . '%')
+            ->get();
+
+        return response()
+            ->json([
+                'success' => true,
+                'items' => $items,
+            ])
             ->header('Content-Type', 'application/json');
     }
 

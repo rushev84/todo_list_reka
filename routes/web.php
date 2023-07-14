@@ -24,3 +24,6 @@ Route::post('/rosters/delete', [RosterController::class, 'delete'])->name('roste
 Route::post('/items/create', [ItemController::class, 'create'])->name('items.create');
 Route::post('/items/update', [ItemController::class, 'update'])->name('items.update');
 Route::post('/items/delete', [ItemController::class, 'delete'])->name('items.delete');
+
+Route::post('/items/search', [ItemController::class, 'search'])->name('items.search');
+

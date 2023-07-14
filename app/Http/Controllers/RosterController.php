@@ -28,7 +28,10 @@ class RosterController extends Controller
 
         // Возвращаем успешный ответ с идентификатором новой записи
         return response()
-            ->json(['success' => true, 'rosterId' => $roster->id])
+            ->json([
+                'success' => true,
+                'rosterId' => $roster->id,
+            ])
             ->header('Content-Type', 'application/json');
     }
 
@@ -42,7 +45,9 @@ class RosterController extends Controller
         $roster->save();
 
         return response()
-            ->json(['success' => true])
+            ->json([
+                'success' => true,
+            ])
             ->header('Content-Type', 'application/json');
     }
 
@@ -65,7 +70,9 @@ class RosterController extends Controller
         $roster->delete();
 
         return response()
-            ->json(['success' => true])
+            ->json([
+                'success' => true,
+            ])
             ->header('Content-Type', 'application/json');
     }
 

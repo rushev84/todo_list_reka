@@ -44,9 +44,9 @@
         </div>
     </form>
 
-    <form class="mb-3">
+    <form id="form_search_item" class="mb-3">
         <div class="input-group">
-            <input type="text" id="searchInput" class="form-control" placeholder="Поиск...">
+            <input type="text" id="search_input" class="form-control" placeholder="Поиск...">
             <button type="submit" class="btn btn-primary">Найти</button>
         </div>
     </form>
@@ -211,13 +211,12 @@
                 editHeaderBtn.removeClass('d-none');
                 saveHeaderBtn.addClass('d-none');
             });
-
-
         }
 
         // Вызываем функцию для привязки обработчиков событий при загрузке страницы
         attachEventHandlers();
 
+        // Функция для создания новой задачи
         $('#form_add_item').submit(function(event) {
             event.preventDefault();
 
@@ -262,6 +261,51 @@
                 }
             });
         });
+
+        // Функция поиска по задачам
+        $('#form_search_item').submit(function(event) {
+            event.preventDefault();
+
+            let searchQuery = $('#search_input').val().trim();
+
+            // Выполняем AJAX-запрос для поиска элементов в базе данных
+            $.ajax({
+                url: '/items/search',
+                type: 'POST',
+                data: {
+                    searchQuery: searchQuery,
+                    rosterId: {{ $roster->id }},
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function(response) {
+                    // Обработка успешного ответа от сервера
+                    // ...
+
+                    // Очищаем список элементов
+                    $('.list-group').empty();
+
+                    // Добавляем найденные элементы в список
+                    response.items.forEach(function(item) {
+                        let newItem = `<li class="list-group-item d-flex align-items-center justify-content-between">
+                            <div class="editable" data-item-id="${item.id}">${item.name}</div>
+                            <div>
+                                <button class="btn btn-secondary mr-2 edit-btn">Переименовать</button>
+                                <button class="btn btn-dark save-btn d-none">Сохранить</button>
+                                <button class="btn btn-success delete-btn" data-item-id="${item.id}">Выполнено!</button>
+                            </div>
+                        </li>`;
+
+                        $('.list-group').append(newItem);
+                        attachEventHandlers();
+                    });
+                },
+                error: function(xhr) {
+                    // Обработка ошибки
+                    // ...
+                }
+            });
+        });
+
     });
 </script>
 </body>
