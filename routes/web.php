@@ -27,7 +27,3 @@ Route::post('/items/delete', [ItemController::class, 'delete'])->name('items.del
 
 Route::post('/items/search', [ItemController::class, 'search'])->name('items.search');
 
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
