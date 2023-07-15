@@ -45,6 +45,6 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/items/search', [ItemController::class, 'search'])->name('items.search');
 
-    Route::post('/tags/delete', [TagController::class, 'delete'])->name('tags.delete');
+    Route::post('/items/delete_tag', [ItemController::class, 'deleteTag'])->name('items.deleteTag');
 });
 

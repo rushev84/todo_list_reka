@@ -165,19 +165,15 @@
 
         $('.delete-tag').click(function() {
 
-            // var tagElement = $(this);
-            // var tag = tagElement.parent();
+            let tagElement = $(this);
+            let tag = tagElement.parent();
 
-            // var tagId = tag.attr('id');
-
-            var itemId = $(this).parent().closest('.list-group-item').find('.editable').data('item-id');
-            let tagId = $(this).parent().attr('id')
-            console.log(111)
-
+            let itemId = tag.closest('.list-group-item').find('.editable').data('item-id');
+            let tagId = tag.attr('id')
 
             // Отправка AJAX запроса
             $.ajax({
-                url: '/tags/delete',
+                url: '/items/delete_tag',
                 type: 'POST',
                 dataType: 'json',
                 data: {
@@ -187,8 +183,7 @@
                 },
                 success: function(response) {
                     // Обновление интерфейса после успешного удаления
-                    // tag.remove();
-                    console.log(response)
+                    tag.remove();
                 },
                 error: function(xhr, status, error) {
                     console.log(error);
@@ -197,7 +192,7 @@
         });
 
         $(document).click(function(event) {
-            var target = $(event.target);
+            let target = $(event.target);
             if (!target.closest('.tag-list-container').length && !target.closest('.plus-tag').length) {
                 $('.tag-list-container').hide();
             }

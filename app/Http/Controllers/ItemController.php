@@ -71,4 +71,16 @@ class ItemController extends Controller
             ])
             ->header('Content-Type', 'application/json');
     }
+
+    public function deleteTag(Request $request)
+    {
+        $itemId = $request->input('itemId');
+        $tagId = $request->input('tagId');
+
+        $item = Item::find($itemId);
+        $item->tags()->detach($tagId);
+
+        return response()->json(['success' => $tagId]);
+    }
+
 }
