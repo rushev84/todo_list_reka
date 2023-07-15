@@ -11,8 +11,7 @@ class RosterController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
-        $rosters = $user->rosters;
+        $rosters = $this->user->rosters;
 
         return view('roster.index', [
             'rosters' => $rosters,
@@ -23,10 +22,8 @@ class RosterController extends Controller
     {
         $name = $request->input('name');
 
-        $user = Auth::user();
-
         $roster = new Roster;
-        $roster->user_id = $user->id;
+        $roster->user_id = $this->user->id;
         $roster->name = $name;
         $roster->save();
 
@@ -58,8 +55,7 @@ class RosterController extends Controller
     public function show($id, Request $request)
     {
         $roster = Roster::find($id);
-        $user = Auth::user();
-        $userTags = $user->tags;
+        $userTags = $this->user->tags;
 
         // если в get-запросе есть параметры для поиска
         if ($request) {
