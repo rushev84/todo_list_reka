@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Models\Roster;
 use Illuminate\Support\Facades\Auth;
@@ -54,13 +55,24 @@ class RosterController extends Controller
             ->header('Content-Type', 'application/json');
     }
 
-    public function show($id)
+    public function show($id, Request $request)
     {
         $roster = Roster::find($id);
-        $items = $roster->items;
-
         $user = Auth::user();
         $userTags = $user->tags;
+
+        // если в get-запросе есть параметры для поиска
+        if ($request) {
+            $searchText = $request->input('searchText');
+
+            $items = Item::where('roster_id', $id)
+                ->where('name', 'like', '%' . $searchText . '%')
+                ->get();
+        }
+
+        else {
+            $items = $roster->items;
+        }
 
         return view('roster.show', [
             'roster' => $roster,

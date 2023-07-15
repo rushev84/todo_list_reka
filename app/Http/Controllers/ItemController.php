@@ -57,22 +57,4 @@ class ItemController extends Controller
             ->header('Content-Type', 'application/json');
     }
 
-    public function search(Request $request)
-    {
-        $searchQuery = $request->input('searchQuery');
-        $rosterId = $request->input('rosterId');
-
-        // Выполняем поиск элементов в базе данных на основе поискового запроса и rosterId
-        $items = Item::where('roster_id', $rosterId)
-            ->where('name', 'like', '%' . $searchQuery . '%')
-            ->get();
-
-        return response()
-            ->json([
-                'success' => true,
-                'items' => $items,
-            ])
-            ->header('Content-Type', 'application/json');
-    }
-
 }
