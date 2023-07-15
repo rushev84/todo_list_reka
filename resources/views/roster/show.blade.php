@@ -113,7 +113,7 @@
                 <div class="d-flex align-items-center">
                     <div class="tags mr-20">
                         @foreach($item->tags as $tag)
-                            <span class="badge bg-info">{{ $tag->name }}&nbsp;<i class="fas fa-times delete-tag"></i></span>
+                            <span class="badge bg-info" id="{{ $tag->id }}">{{ $tag->name }}&nbsp;<i class="fas fa-times delete-tag"></i></span>
                         @endforeach
                         <span class="badge bg-primary plus-tag"><i class="fas fa-plus add-tag"></i></span>
                     </div>
@@ -161,6 +161,39 @@
 
         $('.tag-list li').click(function () {
             $(this).closest('.tag-list-container').hide();
+        });
+
+        $('.delete-tag').click(function() {
+
+            // var tagElement = $(this);
+            // var tag = tagElement.parent();
+
+            // var tagId = tag.attr('id');
+
+            var itemId = $(this).parent().closest('.list-group-item').find('.editable').data('item-id');
+            let tagId = $(this).parent().attr('id')
+            console.log(111)
+
+
+            // Отправка AJAX запроса
+            $.ajax({
+                url: '/tags/delete',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    itemId: itemId,
+                    tagId: tagId,
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function(response) {
+                    // Обновление интерфейса после успешного удаления
+                    // tag.remove();
+                    console.log(response)
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                }
+            });
         });
 
         $(document).click(function(event) {

@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\RosterController;
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,5 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/items/delete', [ItemController::class, 'delete'])->name('items.delete');
 
     Route::post('/items/search', [ItemController::class, 'search'])->name('items.search');
+
+    Route::post('/tags/delete', [TagController::class, 'delete'])->name('tags.delete');
 });
 
