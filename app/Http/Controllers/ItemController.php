@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Item;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+
+use App\Models\Item;
 
 class ItemController extends Controller
 {
-    public function create(Request $request)
+    // AJAX
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function create(Request $request): JsonResponse
     {
         $itemInput = $request->input('itemInput');
         $rosterId = $request->input('rosterId');
@@ -26,8 +34,11 @@ class ItemController extends Controller
             ->header('Content-Type', 'application/json');
     }
 
-
-    public function update(Request $request)
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request): JsonResponse
     {
         $itemId = $request->input('itemId');
         $newText = $request->input('newText');
@@ -43,7 +54,11 @@ class ItemController extends Controller
             ->header('Content-Type', 'application/json');
     }
 
-    public function delete(Request $request)
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete(Request $request): JsonResponse
     {
         $itemId = $request->input('itemId');
 
@@ -56,5 +71,4 @@ class ItemController extends Controller
             ])
             ->header('Content-Type', 'application/json');
     }
-
 }

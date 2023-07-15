@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function index()
+    /**
+     * @return Illuminate\Contracts\View\View
+     */
+    public function index(): View
     {
         return view('auth.login');
     }
@@ -31,7 +36,10 @@ class LoginController extends Controller
         }
     }
 
-    public function logout()
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function logout(): RedirectResponse
     {
         Auth::logout();
         return redirect()->route('login.index');
