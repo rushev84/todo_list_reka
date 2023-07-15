@@ -110,17 +110,17 @@
         @forelse($items as $item)
             <li class="list-group-item d-flex align-items-center justify-content-between">
                 <div class="editable" data-item-id="{{ $item->id }}">{{ $item->name }}</div>
-                <div class="d-flex align-items-center">
+                <div class="tags-container d-flex align-items-center">
                     <div class="tags mr-20">
                         @foreach($item->tags as $tag)
                             <span class="badge bg-info" id="{{ $tag->id }}">{{ $tag->name }}&nbsp;<i class="fas fa-times delete-tag"></i></span>
                         @endforeach
-                        <span class="badge bg-primary plus-tag"><i class="fas fa-plus add-tag"></i></span>
+                        <span class="badge bg-primary plus-tag"><i class="fas fa-plus"></i></span>
                     </div>
                     <div class="tag-list-container" style="display: none;">
                         <ul class="tag-list">
                             @foreach($userTags as $userTag)
-                                <li>{{ $userTag->name }}</li>
+                                <li id="{{ $userTag->id }}" class="add-tag">{{ $userTag->name }}</li>
                             @endforeach
                         </ul>
                     </div>
@@ -171,6 +171,8 @@
             let itemId = tag.closest('.list-group-item').find('.editable').data('item-id');
             let tagId = tag.attr('id')
 
+            console.log(111)
+
             // Отправка AJAX запроса
             $.ajax({
                 url: '/items/delete_tag',
@@ -190,6 +192,38 @@
                 }
             });
         });
+
+        $('.add-tag').click(function () {
+
+            let plus = $('.plus-tag')
+
+            let tagId = $(this).attr('id');
+
+            let tagElement = $(this);
+            let tag = tagElement.parent();
+            let itemId = tag.closest('.list-group-item').find('.editable').data('item-id');
+            console.log(itemId)
+
+            // Отправка AJAX запроса
+            $.ajax({
+                url: '/items/add_tag',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    itemId: itemId,
+                    tagId: tagId,
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function(response) {
+                    // Обновление интерфейса после успешного добавления
+                    let newTagElement = $('<span>').addClass('badge bg-info').attr('id', tagId).text(tagElement.text()).append('&nbsp;<i class="fas fa-times delete-tag"></i><br>');
+                    tagElement.closest('.tags-container').find('.plus-tag').before(newTagElement);
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        })
 
         $(document).click(function(event) {
             let target = $(event.target);

@@ -80,7 +80,18 @@ class ItemController extends Controller
         $item = Item::find($itemId);
         $item->tags()->detach($tagId);
 
-        return response()->json(['success' => $tagId]);
+        return response()->json(['success' => true]);
+    }
+
+    public function addTag(Request $request)
+    {
+        $itemId = $request->input('itemId');
+        $tagId = $request->input('tagId');
+//
+        $item = Item::find($itemId);
+        $item->tags()->attach($tagId);
+
+        return response()->json(['success' => true]);
     }
 
 }
