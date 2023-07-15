@@ -72,7 +72,11 @@ class ItemController extends Controller
             ->header('Content-Type', 'application/json');
     }
 
-    public function deleteTag(Request $request)
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteTag(Request $request): JsonResponse
     {
         $itemId = $request->input('itemId');
         $tagId = $request->input('tagId');
@@ -83,7 +87,11 @@ class ItemController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function addTag(Request $request)
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function addTag(Request $request): JsonResponse
     {
         $itemId = $request->input('itemId');
         $tagId = $request->input('tagId');
