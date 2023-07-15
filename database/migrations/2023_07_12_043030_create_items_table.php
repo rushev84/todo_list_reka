@@ -15,9 +15,14 @@ return new class extends Migration
             $table->id();
 
             $table->unsignedBigInteger('roster_id');
-            $table->foreign('roster_id')->references('id')->on('rosters')->onDelete('cascade');
+            $table->foreign('roster_id')
+                ->references('id')->on('rosters')
+                ->onDelete('cascade');
+
             $table->string('name');
-            $table->text('description')->nullable();
+
+            $table->text('description')
+                ->nullable();
 
             $table->timestamps();
         });
