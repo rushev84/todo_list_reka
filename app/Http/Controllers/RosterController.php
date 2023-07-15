@@ -13,8 +13,6 @@ class RosterController extends Controller
         $user = Auth::user();
         $rosters = $user->rosters;
 
-//        dd($user->id);
-
         return view('roster.index', [
             'rosters' => $rosters,
         ]);
