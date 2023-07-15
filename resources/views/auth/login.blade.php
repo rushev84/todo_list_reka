@@ -13,7 +13,7 @@
                 <div class="card-header">Авторизация</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('login.enter') }}">
                         @csrf
 
                         <div class="form-group mb-4">
