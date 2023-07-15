@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Models\Roster;
-use Illuminate\Support\Facades\Auth;
 
 class RosterController extends Controller
 {
