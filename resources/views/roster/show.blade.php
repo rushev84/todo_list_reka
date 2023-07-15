@@ -90,14 +90,21 @@
 
     <form id="form_search_item" class="mb-3" action="{{ route('rosters.show', $roster->id) }}" method="GET">
         <div class="input-group">
-            <input type="text" id="search_input" class="form-control" name="searchText" placeholder="Поиск...">
-            <button type="submit" class="btn btn-primary">Найти</button>
+            <input type="text" id="search_input" class="form-control" name="searchText" placeholder="Текст для поиска">
+            <button type="submit" class="btn btn-primary">Применить фильтр</button>
+        </div>
+        <div>
+            <b>Только задачи с тегами:</b>
+            @foreach($userTags as $userTag)
+                <input type="checkbox" id="tag_{{ $userTag->id }}" name="tag[]" value="{{ $userTag->id }}">
+                <label for="tag_{{ $userTag->id }}">{{ $userTag->name }}</label>
+            @endforeach
         </div>
     </form>
 
 
     <ul class="list-group mt-3">
-        @foreach($items as $item)
+        @forelse($items as $item)
             <li class="list-group-item d-flex align-items-center justify-content-between">
                 <div class="editable" data-item-id="{{ $item->id }}">{{ $item->name }}</div>
                 <div class="d-flex align-items-center">
@@ -121,8 +128,11 @@
                     </div>
                 </div>
             </li>
-        @endforeach
+        @empty
+            <span class="text-danger">Задач с указанными условиями не найдено!</span>
+        @endforelse
     </ul>
+
 
 
 

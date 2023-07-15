@@ -24,22 +24,35 @@ class RosterController extends Controller
     }
 
     /**
-     * @param mixed $id
+     * @param int $id
      * @param \Illuminate\Http\Request $request
      * @return Illuminate\Contracts\View\View
      */
     public function show($id, Request $request): View
     {
         $roster = Roster::find($id);
-        $userTags = $this->user->tags;
 
-        // если в get-запросе есть параметры для поиска
-        if ($request) {
+        $items = [];
+
+        if ($request->has('searchText') || $request->has('tag')) {
             $searchText = $request->input('searchText');
+            $tags = $request->input('tag');
 
-            $items = Item::where('roster_id', $id)
-                ->where('name', 'like', '%' . $searchText . '%')
-                ->get();
+            $query = Item::where('roster_id', $id);
+
+            // Фильтрация по текстовому поиску
+            if (!empty($searchText)) {
+                $query->where('name', 'like', '%' . $searchText . '%');
+            }
+
+            // Фильтрация по выбранным тегам
+            if (!empty($tags)) {
+                $query->whereHas('tags', function ($query) use ($tags) {
+                    $query->whereIn('id', $tags);
+                });
+            }
+
+            $items = $query->get();
         }
 
         else {
@@ -49,7 +62,7 @@ class RosterController extends Controller
         return view('roster.show', [
             'roster' => $roster,
             'items' => $items,
-            'userTags' => $userTags,
+            'userTags' => $this->user->tags,
         ]);
     }
 
