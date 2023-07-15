@@ -8,9 +8,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style>
-        @media (min-width: 800px) {
+        @media (min-width: 1000px) {
             .container {
-                max-width: 700px;
+                max-width: 900px;
             }
         }
         .editing {

@@ -10,9 +10,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style>
-        @media (min-width: 800px) {
+        @media (min-width: 1000px) {
             .container {
-                max-width: 700px;
+                max-width: 900px;
             }
         }
         .editing {
@@ -79,22 +79,15 @@
     </div>
     <br>
 
-    <form id="form_add_item" class="d-flex">
-        <div class="mb-3 me-2 flex-grow-1">
-            <input type="text" id="itemInput" class="form-control border-primary" placeholder="Название задачи">
-        </div>
-        <div>
-            <button type="submit" class="btn btn-primary">Добавить задачу</button>
-        </div>
-    </form>
-
+    <h4 class="text-secondary">Фильтр</h4>
     <form id="form_search_item" class="mb-3" action="{{ route('rosters.show', $roster->id) }}" method="GET">
-        <div class="input-group">
-            <input type="text" id="search_input" class="form-control" name="searchText" placeholder="Текст для поиска">
-            <button type="submit" class="btn btn-primary">Применить фильтр</button>
+        <div class="input-group mb-2">
+            <input type="text" id="search_input" class="form-control" name="searchText" placeholder="Текст...">
+            <button type="submit" class="btn btn-primary">Применить</button>
+            <button type="button" class="btn btn-warning" onclick="resetFilter()">Сбросить</button>
         </div>
-        <div>
-            <b>Только задачи с тегами:</b>
+        <div class="mb-3">
+            <div class="text-secondary"><b>Только задачи с тегами:</b></div>
             @foreach($userTags as $userTag)
                 <input type="checkbox" id="tag_{{ $userTag->id }}" name="tag[]" value="{{ $userTag->id }}">
                 <label for="tag_{{ $userTag->id }}">{{ $userTag->name }}</label>
@@ -102,8 +95,18 @@
         </div>
     </form>
 
+    <h4 class="text-secondary">Новая задача</h4>
+    <form id="form_add_item" class="d-flex">
+        <div class="mb-3 me-2 flex-grow-1">
+            <input type="text" id="itemInput" class="form-control border-primary" placeholder="Название...">
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">Добавить</button>
+        </div>
+    </form>
 
-    <ul class="list-group mt-3">
+
+    <ul class="list-group mt-2">
         @forelse($items as $item)
             <li class="list-group-item d-flex align-items-center justify-content-between">
                 <div class="editable" data-item-id="{{ $item->id }}">{{ $item->name }}</div>
@@ -145,6 +148,11 @@
 
 
 <script>
+    function resetFilter() {
+        document.getElementById("form_search_item").action = window.location.href;
+        document.getElementById("form_search_item").submit();
+    }
+
     $(document).ready(function() {
 
         $('.plus-tag').click(function () {
@@ -350,6 +358,8 @@
                 }
             });
         });
+
+
 
      });
 </script>
