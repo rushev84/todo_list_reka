@@ -60,10 +60,21 @@
             cursor: pointer;
         }
 
+        .user-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #f8f9fa;
+            flex-direction: row-reverse;
+        }
+
+
 
     </style>
 </head>
 <body>
+@include('includes.head')
 <div class="container">
     <a href="{{ route('rosters.index') }}">Назад к листам</a>
     <br><br>

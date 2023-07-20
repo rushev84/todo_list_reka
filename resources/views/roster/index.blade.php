@@ -24,6 +24,7 @@
     </style>
 </head>
 <body>
+@include('includes.head')
 <div class="container">
     <h1>Todo-листы</h1>
     <br>
