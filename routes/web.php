@@ -34,10 +34,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/rosters', [RosterController::class, 'index'])->name('rosters.index');
     Route::get('/rosters/{id}', [RosterController::class, 'show'])->name('rosters.show');
 
+    Route::get('/tags', [TagController::class, 'index'])->name('tags.index');
+
     // ajax
     Route::post('/rosters/create', [RosterController::class, 'create'])->name('rosters.create');
     Route::post('/rosters/update', [RosterController::class, 'update'])->name('rosters.update');
     Route::post('/rosters/delete', [RosterController::class, 'delete'])->name('rosters.delete');
+
+    Route::post('/tags/create', [TagController::class, 'create'])->name('tags.create');
+    Route::post('/tags/delete', [TagController::class, 'delete'])->name('tags.delete');
 
     Route::post('/items/create', [ItemController::class, 'create'])->name('items.create');
     Route::post('/items/update', [ItemController::class, 'update'])->name('items.update');
@@ -47,5 +52,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/items/add_tag', [ItemController::class, 'addTag'])->name('items.addTag');
     Route::post('/items/delete_tag', [ItemController::class, 'deleteTag'])->name('items.deleteTag');
+
+
 });
 

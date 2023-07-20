@@ -76,8 +76,10 @@
 <body>
 @include('includes.head')
 <div class="container">
-    <a href="{{ route('rosters.index') }}">Назад к листам</a>
-    <br><br>
+    <div style="display: flex; width: 100%; margin-bottom: 20px">
+        <div style="flex-grow: 1;"><a href="{{ route('rosters.index') }}">На главную</a></div>
+        <div><a href="{{ route('tags.index') }}" class="text-dark">Управление тэгами</a></div>
+    </div>
 
     <div class="d-flex align-items-center justify-content-between">
         <div>
