@@ -53,6 +53,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/items/add_tag', [ItemController::class, 'addTag'])->name('items.addTag');
     Route::post('/items/delete_tag', [ItemController::class, 'deleteTag'])->name('items.deleteTag');
 
+    Route::post('/items/upload_image', [ItemController::class, 'uploadImage'])->name('items.uploadImage');
+
 
 });
 

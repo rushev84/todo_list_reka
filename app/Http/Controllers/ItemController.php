@@ -6,6 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 use App\Models\Item;
+use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
@@ -23,6 +24,7 @@ class ItemController extends Controller
         $item = new Item;
         $item->name = $itemInput;
         $item->roster_id = $rosterId;
+        $item->preview_image = 'plus.jpg';
         $item->save();
 
         // Возвращаем успешный ответ с идентификатором новой записи
@@ -100,6 +102,28 @@ class ItemController extends Controller
         $item->tags()->attach($tagId);
 
         return response()->json(['success' => true]);
+    }
+
+    public function uploadImage(Request $request): JsonResponse
+    {
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+
+            // Генерируем уникальное имя для файла
+            $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
+
+            // Сохраняем файл в папке public/images
+            $filePath = $file->storeAs('public/images', $fileName);
+
+
+
+            // Формируем ссылку на сохраненный файл
+            $url = Storage::url($filePath);
+
+            return response()->json(['success' => true, 'imageUrl' => $url]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'No file uploaded.']);
     }
 
 }

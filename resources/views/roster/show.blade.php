@@ -127,7 +127,8 @@
         @forelse($items as $item)
             <li class="list-group-item d-flex align-items-center justify-content-between">
                 <div class="image-container">
-                    <img src="" alt="" width="70" height="70">
+                    <img src="/storage/images/{{ $item->preview_image }}" alt="" width="70" height="70" class="preview-image">
+
                 </div>
 
 
@@ -167,6 +168,56 @@
 
 
 <script>
+
+   $('.preview-image').click(function () {
+        // Создаем элемент input типа file
+        var fileInput = document.createElement('input');
+        fileInput.type = 'file';
+
+
+        // ПОЛУЧИТЬ itemId, передать его в ajax, в методе на сервере менять значение в БД, возвращать в response новый урл (только превью или нет?)
+
+
+        console.log($(this).closest('.list-group-item').find('.editable').data('item-id'))
+
+        // Добавляем обработчик события изменения файла
+        fileInput.addEventListener('change', function() {
+            var file = fileInput.files[0];
+
+            var formData = new FormData();
+            formData.append('file', file);
+
+            // let itemId = tag.closest('.list-group-item').find('.editable').data('item-id');
+
+
+
+            $.ajax({
+                url: '/items/upload_image',
+                method: 'POST',
+                data: formData,
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                processData: false,
+                contentType: false,
+                success: function(response) {
+
+                    console.log(response.imageUrl)
+                    // Обработка успешного ответа от сервера
+                    // Можно обновить изображение на странице
+
+                    $('#preview-image').attr('src', response.imageUrl);
+                },
+                error: function(xhr, status, error) {
+                    // Обработка ошибки
+                }
+            });
+        });
+
+        // Запускаем окно выбора файла
+        fileInput.click();
+    });
+
     function resetFilter() {
         document.getElementById("form_search_item").action = window.location.href;
         document.getElementById("form_search_item").submit();
@@ -421,6 +472,10 @@
                     // Добавляем новый элемент в лист
 
                     let newItem = `<li class="list-group-item d-flex align-items-center justify-content-between">
+
+
+
+
                         <div class="editable" data-item-id="${response.itemId}">${itemInput}</div>
                         <div>
                             <button class="btn btn-secondary mr-2 edit-btn">Переименовать</button>
