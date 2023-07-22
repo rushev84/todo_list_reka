@@ -127,8 +127,9 @@
         @forelse($items as $item)
             <li class="list-group-item d-flex align-items-center justify-content-between">
                 <div class="image-container">
-                    <img src="{{ asset('images/' . $item->image) }}" alt="" width="70" height="70">
+                    <img src="" alt="" width="70" height="70">
                 </div>
+
 
                 <div style="flex-grow: 1" class="editable" data-item-id="{{ $item->id }}">{{ $item->name }}</div>
                 <div class="tags-container d-flex align-items-center">
