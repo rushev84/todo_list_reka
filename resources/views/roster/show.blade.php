@@ -69,7 +69,11 @@
             flex-direction: row-reverse;
         }
 
-
+        .image-container {
+            margin-right: 10px;
+            border-radius: 7px;
+            overflow: hidden;
+        }
 
     </style>
 </head>
@@ -122,7 +126,11 @@
     <ul class="list-group mt-2">
         @forelse($items as $item)
             <li class="list-group-item d-flex align-items-center justify-content-between">
-                <div class="editable" data-item-id="{{ $item->id }}">{{ $item->name }}</div>
+                <div class="image-container">
+                    <img src="{{ asset('images/' . $item->image) }}" alt="" width="70" height="70">
+                </div>
+
+                <div style="flex-grow: 1" class="editable" data-item-id="{{ $item->id }}">{{ $item->name }}</div>
                 <div class="tags-container d-flex align-items-center">
                     <div class="tags mr-20">
                         @foreach($item->tags as $tag)
@@ -148,9 +156,6 @@
             <span class="text-danger">Задач с указанными условиями не найдено!</span>
         @endforelse
     </ul>
-
-
-
 
 
 </div>
