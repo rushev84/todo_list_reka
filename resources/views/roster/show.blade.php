@@ -82,6 +82,10 @@
             cursor: pointer;
         }
 
+        .add-preview {
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
@@ -140,8 +144,8 @@
                         </div>
                         <div class="text-center d-flex justify-content-center">
                             <div>
-                                <a href="#">
-                                    <i class="fas fa-plus extra-small"></i>
+                                <a class="add-preview" data-item-id="{{ $item->id }}">
+                                    <i class="fas fa-plus extra-small add-preview"></i>
                                 </a>
                             </div>
                         </div>
@@ -202,56 +206,67 @@
 
 <script>
 
+    $('.add-preview').click(function () {
+        // Создаем элемент input типа file
+        let fileInput = document.createElement('input');
+        fileInput.type = 'file';
+
+        // ПОЛУЧИТЬ itemId, передать его в ajax, в методе на сервере менять значение в БД, возвращать в response новый урл (только превью или нет?)
+
+        let itemId = $(this).attr('data-item-id')
+
+
+        // Добавляем обработчик события изменения файла
+        fileInput.addEventListener('change', function() {
+            var file = fileInput.files[0];
+
+            var formData = new FormData();
+            formData.append('file', file);
+
+            $.ajax({
+                url: '/items/' + itemId + '/upload_image',
+                method: 'POST',
+                data: formData,
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                processData: false,
+                contentType: false,
+                success: function(response) {
+
+                    console.log(response)
+
+                    // console.log(response.imageUrl)
+                    // Обработка успешного ответа от сервера
+                    // Можно обновить изображение на странице
+
+                    $('#preview-image').attr('src', response.imageUrl);
+                },
+                error: function(xhr, status, error) {
+                    // Обработка ошибки
+                }
+            });
+        });
+
+        // Запускаем окно выбора файла
+        fileInput.click();
+
+    })
+
+
    $('.preview-image').click(function () {
        let fullImage = $(this).attr('data-full-image');
        window.open(fullImage, '_blank');
 
-        {{--// Создаем элемент input типа file--}}
-        {{--var fileInput = document.createElement('input');--}}
-        {{--fileInput.type = 'file';--}}
 
 
-        {{--// ПОЛУЧИТЬ itemId, передать его в ajax, в методе на сервере менять значение в БД, возвращать в response новый урл (только превью или нет?)--}}
+
+
 
 
         {{--console.log($(this).closest('.list-group-item').find('.editable').data('item-id'))--}}
 
-        {{--// Добавляем обработчик события изменения файла--}}
-        {{--fileInput.addEventListener('change', function() {--}}
-        {{--    var file = fileInput.files[0];--}}
 
-        {{--    var formData = new FormData();--}}
-        {{--    formData.append('file', file);--}}
-
-        {{--    // let itemId = tag.closest('.list-group-item').find('.editable').data('item-id');--}}
-
-
-
-        {{--    $.ajax({--}}
-        {{--        url: '/items/upload_image',--}}
-        {{--        method: 'POST',--}}
-        {{--        data: formData,--}}
-        {{--        headers: {--}}
-        {{--            'X-CSRF-TOKEN': '{{ csrf_token() }}'--}}
-        {{--        },--}}
-        {{--        processData: false,--}}
-        {{--        contentType: false,--}}
-        {{--        success: function(response) {--}}
-
-        {{--            console.log(response.imageUrl)--}}
-        {{--            // Обработка успешного ответа от сервера--}}
-        {{--            // Можно обновить изображение на странице--}}
-
-        {{--            $('#preview-image').attr('src', response.imageUrl);--}}
-        {{--        },--}}
-        {{--        error: function(xhr, status, error) {--}}
-        {{--            // Обработка ошибки--}}
-        {{--        }--}}
-        {{--    });--}}
-        {{--});--}}
-
-        {{--// Запускаем окно выбора файла--}}
-        {{--fileInput.click();--}}
     });
 
     function resetFilter() {

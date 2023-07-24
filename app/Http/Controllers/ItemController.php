@@ -104,7 +104,7 @@ class ItemController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function uploadImage(Request $request): JsonResponse
+    public function uploadImage($id, Request $request): JsonResponse
     {
         if ($request->hasFile('file')) {
             $file = $request->file('file');
@@ -115,15 +115,19 @@ class ItemController extends Controller
             // Сохраняем файл в папке public/images
             $filePath = $file->storeAs('public/images', $fileName);
 
-
-
             // Формируем ссылку на сохраненный файл
             $url = Storage::url($filePath);
 
-            return response()->json(['success' => true, 'imageUrl' => $url]);
+            $item = Item::find($id);
+            // TODO!!!
+            $item->preview_image = $fileName;
+            $item->image = $fileName;
+            $item->save();
+
+            return response()->json(['success' => true]);
         }
 
-        return response()->json(['success' => false, 'message' => 'No file uploaded.']);
+        return response()->json(['success' => false]);
     }
 
 }
