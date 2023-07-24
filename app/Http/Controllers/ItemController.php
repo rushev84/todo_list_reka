@@ -24,7 +24,7 @@ class ItemController extends Controller
         $item = new Item;
         $item->name = $itemInput;
         $item->roster_id = $rosterId;
-        $item->preview_image = 'plus.jpg';
+        $item->preview_image = 'grey.jpg';
         $item->save();
 
         // Возвращаем успешный ответ с идентификатором новой записи

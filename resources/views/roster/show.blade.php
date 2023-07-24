@@ -134,21 +134,34 @@
         @forelse($items as $item)
             <li class="list-group-item d-flex align-items-center justify-content-between">
                 <div>
-                    <div class="image-container">
-                        <img src="/storage/images/{{ $item->preview_image }}" data-full-image="/storage/images/{{ $item->image }}" alt="" width="70" height="70" class="preview-image">
-                    </div>
-                    <div class="text-center d-flex justify-content-center">
-                        <div style="margin-right: 2px">
-                            <a href="#">
-                                <i class="fas fa-sync-alt extra-small"></i>
-                            </a>
+                    @if($item->preview_image === 'grey.jpg')
+                        <div class="image-container">
+                            <img src="/storage/images/{{ $item->preview_image }}" data-full-image="/storage/images/{{ $item->image }}" alt="" width="70" height="70" class="no-preview-image">
                         </div>
-                        <div style="margin-left: 2px">
-                            <a href="#">
-                                <i class="fas fa-trash extra-small text-danger"></i>
-                            </a>
+                        <div class="text-center d-flex justify-content-center">
+                            <div>
+                                <a href="#">
+                                    <i class="fas fa-plus extra-small"></i>
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    @else
+                        <div class="image-container">
+                            <img src="/storage/images/{{ $item->preview_image }}" data-full-image="/storage/images/{{ $item->image }}" alt="" width="70" height="70" class="preview-image">
+                        </div>
+                        <div class="text-center d-flex justify-content-center">
+                            <div style="margin-right: 2px">
+                                <a href="#">
+                                    <i class="fas fa-sync-alt extra-small"></i>
+                                </a>
+                            </div>
+                            <div style="margin-left: 2px">
+                                <a href="#">
+                                    <i class="fas fa-trash extra-small text-danger"></i>
+                                </a>
+                            </div>
+                        </div>
+                    @endif
                 </div>
 
 
