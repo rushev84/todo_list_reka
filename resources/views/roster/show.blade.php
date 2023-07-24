@@ -127,7 +127,7 @@
         @forelse($items as $item)
             <li class="list-group-item d-flex align-items-center justify-content-between">
                 <div class="image-container">
-                    <img src="/storage/images/{{ $item->preview_image }}" alt="" width="70" height="70" class="preview-image">
+                    <img src="/storage/images/{{ $item->preview_image }}" data-full-image="/storage/images/{{ $item->image }}" alt="" width="70" height="70" class="preview-image">
 
                 </div>
 
@@ -170,52 +170,55 @@
 <script>
 
    $('.preview-image').click(function () {
-        // Создаем элемент input типа file
-        var fileInput = document.createElement('input');
-        fileInput.type = 'file';
+       let fullImage = $(this).attr('data-full-image');
+       window.open(fullImage, '_blank');
+
+        {{--// Создаем элемент input типа file--}}
+        {{--var fileInput = document.createElement('input');--}}
+        {{--fileInput.type = 'file';--}}
 
 
-        // ПОЛУЧИТЬ itemId, передать его в ajax, в методе на сервере менять значение в БД, возвращать в response новый урл (только превью или нет?)
+        {{--// ПОЛУЧИТЬ itemId, передать его в ajax, в методе на сервере менять значение в БД, возвращать в response новый урл (только превью или нет?)--}}
 
 
-        console.log($(this).closest('.list-group-item').find('.editable').data('item-id'))
+        {{--console.log($(this).closest('.list-group-item').find('.editable').data('item-id'))--}}
 
-        // Добавляем обработчик события изменения файла
-        fileInput.addEventListener('change', function() {
-            var file = fileInput.files[0];
+        {{--// Добавляем обработчик события изменения файла--}}
+        {{--fileInput.addEventListener('change', function() {--}}
+        {{--    var file = fileInput.files[0];--}}
 
-            var formData = new FormData();
-            formData.append('file', file);
+        {{--    var formData = new FormData();--}}
+        {{--    formData.append('file', file);--}}
 
-            // let itemId = tag.closest('.list-group-item').find('.editable').data('item-id');
+        {{--    // let itemId = tag.closest('.list-group-item').find('.editable').data('item-id');--}}
 
 
 
-            $.ajax({
-                url: '/items/upload_image',
-                method: 'POST',
-                data: formData,
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                processData: false,
-                contentType: false,
-                success: function(response) {
+        {{--    $.ajax({--}}
+        {{--        url: '/items/upload_image',--}}
+        {{--        method: 'POST',--}}
+        {{--        data: formData,--}}
+        {{--        headers: {--}}
+        {{--            'X-CSRF-TOKEN': '{{ csrf_token() }}'--}}
+        {{--        },--}}
+        {{--        processData: false,--}}
+        {{--        contentType: false,--}}
+        {{--        success: function(response) {--}}
 
-                    console.log(response.imageUrl)
-                    // Обработка успешного ответа от сервера
-                    // Можно обновить изображение на странице
+        {{--            console.log(response.imageUrl)--}}
+        {{--            // Обработка успешного ответа от сервера--}}
+        {{--            // Можно обновить изображение на странице--}}
 
-                    $('#preview-image').attr('src', response.imageUrl);
-                },
-                error: function(xhr, status, error) {
-                    // Обработка ошибки
-                }
-            });
-        });
+        {{--            $('#preview-image').attr('src', response.imageUrl);--}}
+        {{--        },--}}
+        {{--        error: function(xhr, status, error) {--}}
+        {{--            // Обработка ошибки--}}
+        {{--        }--}}
+        {{--    });--}}
+        {{--});--}}
 
-        // Запускаем окно выбора файла
-        fileInput.click();
+        {{--// Запускаем окно выбора файла--}}
+        {{--fileInput.click();--}}
     });
 
     function resetFilter() {
