@@ -70,9 +70,16 @@
         }
 
         .image-container {
-            margin-right: 10px;
             border-radius: 7px;
             overflow: hidden;
+        }
+
+        .extra-small {
+            font-size: 12px;
+        }
+
+        .preview-image {
+            cursor: pointer;
         }
 
     </style>
@@ -126,13 +133,26 @@
     <ul class="list-group mt-2">
         @forelse($items as $item)
             <li class="list-group-item d-flex align-items-center justify-content-between">
-                <div class="image-container">
-                    <img src="/storage/images/{{ $item->preview_image }}" data-full-image="/storage/images/{{ $item->image }}" alt="" width="70" height="70" class="preview-image">
-
+                <div>
+                    <div class="image-container">
+                        <img src="/storage/images/{{ $item->preview_image }}" data-full-image="/storage/images/{{ $item->image }}" alt="" width="70" height="70" class="preview-image">
+                    </div>
+                    <div class="text-center d-flex justify-content-center">
+                        <div style="margin-right: 2px">
+                            <a href="#">
+                                <i class="fas fa-sync-alt extra-small"></i>
+                            </a>
+                        </div>
+                        <div style="margin-left: 2px">
+                            <a href="#">
+                                <i class="fas fa-trash extra-small text-danger"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
 
-                <div style="flex-grow: 1" class="editable" data-item-id="{{ $item->id }}">{{ $item->name }}</div>
+                <div style="flex-grow: 1; padding-left: 10px" class="editable" data-item-id="{{ $item->id }}">{{ $item->name }}</div>
                 <div class="tags-container d-flex align-items-center">
                     <div class="tags mr-20">
                         @foreach($item->tags as $tag)
