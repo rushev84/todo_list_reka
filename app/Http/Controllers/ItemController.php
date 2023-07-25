@@ -148,4 +148,20 @@ class ItemController extends Controller
         return response()->json(['success' => false]);
     }
 
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteImage($id): JsonResponse
+    {
+        $item = Item::find($id);
+        $item->preview_image = 'grey.jpg';
+        $item->image = 'grey.jpg';
+        $item->save();
+
+        return response()->json([
+            'success' => true,
+        ]);
+    }
+
 }

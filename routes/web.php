@@ -54,6 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/items/delete_tag', [ItemController::class, 'deleteTag'])->name('items.deleteTag');
 
     Route::post('/items/{id}/add_image', [ItemController::class, 'addImage'])->name('items.addImage');
+    Route::post('/items/{id}/delete_image', [ItemController::class, 'deleteImage'])->name('items.deleteImage');
 
 
     // will delete from production

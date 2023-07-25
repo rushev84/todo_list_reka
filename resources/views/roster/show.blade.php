@@ -144,7 +144,7 @@
                         </div>
                         <div class="text-center d-flex justify-content-center">
                             <div>
-                                <a class="add-image" data-item-id="{{ $item->id }}">
+                                <a class="add-image" onclick="addImage(this, '{{ $item->id }}')">
                                     <i class="fas fa-plus extra-small"></i>
                                 </a>
                             </div>
@@ -155,12 +155,12 @@
                         </div>
                         <div class="text-center d-flex justify-content-center">
                             <div style="margin-right: 2px">
-                                <a class="add-image" data-item-id="{{ $item->id }}">
+                                <a class="add-image" onclick="addImage(this, '{{ $item->id }}')">
                                     <i class="fas fa-sync-alt extra-small"></i>
                                 </a>
                             </div>
                             <div style="margin-left: 2px">
-                                <a class="delete-image">
+                                <a class="delete-image" onclick="deleteImage('{{ $item->id }}')">
                                     <i class="fas fa-trash extra-small text-danger"></i>
                                 </a>
                             </div>
@@ -203,66 +203,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 
+<script>
+    const token = '{{ csrf_token() }}'
+</script>
+<script src="/js/images.js"></script>
+
+
 
 <script>
 
-    $('.add-image').click(function () {
-        // Создаем элемент input типа file
-        let fileInput = document.createElement('input')
-        fileInput.type = 'file'
-        fileInput.setAttribute('id', 'fileInput')
-        fileInput.setAttribute('name', 'fileInput')
 
-        let itemId = $(this).attr('data-item-id')
-        let imgCont = $(this).closest('.imgcont')
-
-        // Добавляем обработчик события изменения файла
-        fileInput.addEventListener('change', function() {
-
-            let formData = new FormData()
-            formData.append('fileInput', fileInput.files[0])
-
-            $.ajax({
-                url: '/items/' + itemId + '/add_image',
-                method: 'POST',
-                data: formData,
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                processData: false,
-                contentType: false,
-                success: function(response) {
-
-                    console.log(response)
-                    // imgCont.html('<div>sdfsdf</div>')
-
-                    // Обработка успешного ответа от сервера
-                    // Можно обновить изображение на странице
-
-                },
-                error: function(xhr, status, error) {
-                    // Обработка ошибки
-                }
-            });
-        });
-
-        // Запускаем окно выбора файла
-        fileInput.click()
-
-    })
-
-
-   $('.preview-image').click(function () {
-       let fullImage = $(this).attr('data-full-image');
-       window.open(fullImage, '_blank');
-
-
-
-
-
-
-
-        {{--console.log($(this).closest('.list-group-item').find('.editable').data('item-id'))--}}
+    $('.preview-image').click(function () {
+        let fullImage = $(this).attr('data-full-image');
+        window.open(fullImage, '_blank');
 
 
     });
@@ -546,7 +499,7 @@
 
 
 
-     });
+    });
 </script>
 </body>
 </html>
