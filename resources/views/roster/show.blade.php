@@ -70,9 +70,7 @@
                         </div>
                         <div class="text-center d-flex justify-content-center">
                             <div>
-                                <a class="add-image" data-item-id="{{ $item->id }}">
-                                    <i class="fas fa-plus extra-small"></i>
-                                </a>
+                                <x-image-button type="add" :itemId="$item->id"/>
                             </div>
                         </div>
                     @else
@@ -81,14 +79,10 @@
                         </div>
                         <div class="text-center d-flex justify-content-center">
                             <div style="margin-right: 2px">
-                                <a class="add-image" data-item-id="{{ $item->id }}">
-                                    <i class="fas fa-sync-alt extra-small"></i>
-                                </a>
+                                <x-image-button type="update" :itemId="$item->id"/>
                             </div>
                             <div style="margin-left: 2px">
-                                <a class="delete-image" data-item-id="{{ $item->id }}">
-                                    <i class="fas fa-trash extra-small text-danger"></i>
-                                </a>
+                                <x-image-button type="delete" :itemId="$item->id"/>
                             </div>
                         </div>
                     @endif
