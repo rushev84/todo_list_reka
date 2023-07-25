@@ -1,24 +1,21 @@
-/**
- * Добавляет изображение в задачу.
- * @param {HTMLElement} button - Кнопка, по которой произведён клик.
- * @param {string} itemId - Идентификатор задачи.
- * @returns {void}
- */
-function addImage(button, itemId) {
+
+$('.add-image').click(function() {
 
     // Создаем элемент input типа file
-    let fileInput = document.createElement('input')
+    const fileInput = document.createElement('input')
     fileInput.type = 'file'
     fileInput.setAttribute('id', 'fileInput')
     fileInput.setAttribute('name', 'fileInput')
 
+    const itemId =  $(this).data('item-id')
+
     // Находим текущий контейнер с изображением и кнопками
-    let imgCont = $(button).closest('.imgcont')
+    const imgCont = $(this).closest('.imgcont')
 
     // Добавляем обработчик события изменения файла
     fileInput.addEventListener('change', function () {
 
-        let formData = new FormData()
+        const formData = new FormData()
         formData.append('fileInput', fileInput.files[0])
 
         $.ajax({
@@ -47,14 +44,13 @@ function addImage(button, itemId) {
 
     // Запускаем окно выбора файла
     fileInput.click()
-}
 
-/**
- * Удаляет изображение из задачи.
- * @param {string} itemId - Идентификатор задачи.
- * @returns {void}
- */
-function deleteImage(itemId) {
+});
+
+
+$('.delete-image').click(function() {
+
+    const itemId =  $(this).data('item-id')
 
     $.ajax({
         url: `/items/${itemId}/delete_image`,
@@ -77,4 +73,4 @@ function deleteImage(itemId) {
             // Обработка ошибки
         }
     });
-}
+});

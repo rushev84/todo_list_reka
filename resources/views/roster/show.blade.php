@@ -55,7 +55,7 @@
             <input type="text" id="itemInput" class="form-control border-primary" placeholder="Название...">
         </div>
         <div>
-            <button type="submit" class="btn btn-primary">Добавить</button>
+            <button type="submit" class="btn btn-primary" onclick="console.log(111)">Добавить</button>
         </div>
     </form>
 
@@ -66,11 +66,11 @@
                 <div class="imgcont">
                     @if($item->preview_image === 'grey.jpg')
                         <div class="image-container">
-                            <img src="/storage/images/{{ $item->preview_image }}" data-full-image="/storage/images/{{ $item->image }}" alt="" width="70" height="70" class="no-preview-image">
+                            <img src="/storage/images/{{ $item->preview_image }}" alt="" width="70" height="70" class="no-preview-image">
                         </div>
                         <div class="text-center d-flex justify-content-center">
                             <div>
-                                <a class="add-image" onclick="addImage(this, '{{ $item->id }}')">
+                                <a class="add-image" data-item-id="{{ $item->id }}">
                                     <i class="fas fa-plus extra-small"></i>
                                 </a>
                             </div>
@@ -81,12 +81,12 @@
                         </div>
                         <div class="text-center d-flex justify-content-center">
                             <div style="margin-right: 2px">
-                                <a class="add-image" onclick="addImage(this, '{{ $item->id }}')">
+                                <a class="add-image" data-item-id="{{ $item->id }}">
                                     <i class="fas fa-sync-alt extra-small"></i>
                                 </a>
                             </div>
                             <div style="margin-left: 2px">
-                                <a class="delete-image" onclick="deleteImage('{{ $item->id }}')">
+                                <a class="delete-image" data-item-id="{{ $item->id }}">
                                     <i class="fas fa-trash extra-small text-danger"></i>
                                 </a>
                             </div>
@@ -137,9 +137,6 @@
 
 
 <script>
-
-
-
 
     function resetFilter() {
         document.getElementById("form_search_item").action = window.location.href;
@@ -417,8 +414,6 @@
                 }
             });
         });
-
-
 
     });
 </script>
