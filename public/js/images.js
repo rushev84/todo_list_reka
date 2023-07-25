@@ -1,27 +1,70 @@
 
-$('.add-image').click(function() {
+function attachImageButtonsHandlers() {
 
-    // Создаем элемент input типа file
-    const fileInput = document.createElement('input')
-    fileInput.type = 'file'
-    fileInput.setAttribute('id', 'fileInput')
-    fileInput.setAttribute('name', 'fileInput')
+    $('.add-image').click(function () {
 
-    const itemId =  $(this).data('item-id')
+        // Создаем элемент input типа file
+        const fileInput = document.createElement('input')
+        fileInput.type = 'file'
+        fileInput.setAttribute('id', 'fileInput')
+        fileInput.setAttribute('name', 'fileInput')
 
-    // Находим текущий контейнер с изображением и кнопками
-    const imgCont = $(this).closest('.imgcont')
+        const itemId = $(this).data('item-id')
 
-    // Добавляем обработчик события изменения файла
-    fileInput.addEventListener('change', function () {
+        // Находим текущий контейнер с изображением и кнопками
+        const imgCont = $(this).closest('.imgcont')
 
-        const formData = new FormData()
-        formData.append('fileInput', fileInput.files[0])
+        // Добавляем обработчик события изменения файла
+        fileInput.addEventListener('change', function () {
+
+            const formData = new FormData()
+            formData.append('fileInput', fileInput.files[0])
+
+            $.ajax({
+                url: `/items/${itemId}/add_image`,
+                method: 'POST',
+                data: formData,
+                headers: {
+                    'X-CSRF-TOKEN': token
+                },
+                processData: false,
+                contentType: false,
+                success: function (response) {
+
+                    imgCont.html(`<div class="image-container">
+                    <img src="/storage/images/${response.previewImage}" alt="" width="70" height="70" data-full-image="${response.image}" class="preview-image">
+                    </div>
+                    <div class="text-center d-flex justify-content-center">
+                    <div style="margin-right: 2px">
+                    111
+                    </div>
+                    <div style="margin-left: 2px">
+                    <x-image-button type="delete" :itemId="$item->id"/>
+                    222
+                    </div>`)
+
+                    attachImageButtonsHandlers()
+
+                },
+                error: function (xhr, status, error) {
+                    // Обработка ошибки
+                }
+            });
+        });
+
+        // Запускаем окно выбора файла
+        fileInput.click()
+
+    });
+
+    $('.delete-image').click(function () {
+
+        const itemId = $(this).data('item-id')
+        const imgCont = $(this).closest('.imgcont')
 
         $.ajax({
-            url: `/items/${itemId}/add_image`,
+            url: `/items/${itemId}/delete_image`,
             method: 'POST',
-            data: formData,
             headers: {
                 'X-CSRF-TOKEN': token
             },
@@ -29,12 +72,19 @@ $('.add-image').click(function() {
             contentType: false,
             success: function (response) {
 
-                console.log(response)
-                // imgCont.html('<div>sdfsdf</div>')
+                imgCont.html(`
+                    <div class="image-container">
+                        <img src="/storage/images/grey.jpg" alt="" width="70" height="70" class="no-preview-image">
+                    </div>
+                    <div class="text-center d-flex justify-content-center">
+                        <div>
+                            <a class="add-image" data-item-id="${itemId}">
+                                <i class="fas fa-plus extra-small"></i>
+                            </a>
+                        </div>
+                    </div>`)
 
-                // Обработка успешного ответа от сервера
-                // Можно обновить изображение на странице
-
+                attachImageButtonsHandlers()
             },
             error: function (xhr, status, error) {
                 // Обработка ошибки
@@ -42,35 +92,11 @@ $('.add-image').click(function() {
         });
     });
 
-    // Запускаем окно выбора файла
-    fileInput.click()
-
-});
-
-
-$('.delete-image').click(function() {
-
-    const itemId =  $(this).data('item-id')
-
-    $.ajax({
-        url: `/items/${itemId}/delete_image`,
-        method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': token
-        },
-        processData: false,
-        contentType: false,
-        success: function(response) {
-
-            console.log(response)
-            // imgCont.html('<div>sdfsdf</div>')
-
-            // Обработка успешного ответа от сервера
-            // Можно обновить изображение на странице
-
-        },
-        error: function(xhr, status, error) {
-            // Обработка ошибки
-        }
+    $('.preview-image').click(function () {
+        const fullImage = $(this).data('full-image')
+        window.open('/storage/images/' + fullImage, '_blank')
     });
-});
+
+}
+
+attachImageButtonsHandlers()

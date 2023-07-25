@@ -55,7 +55,7 @@
             <input type="text" id="itemInput" class="form-control border-primary" placeholder="Название...">
         </div>
         <div>
-            <button type="submit" class="btn btn-primary" onclick="console.log(111)">Добавить</button>
+            <button type="submit" class="btn btn-primary">Добавить</button>
         </div>
     </form>
 
@@ -63,31 +63,7 @@
     <ul class="list-group mt-2">
         @forelse($items as $item)
             <li class="list-group-item d-flex align-items-center justify-content-between">
-                <div class="imgcont">
-                    @if($item->preview_image === 'grey.jpg')
-                        <div class="image-container">
-                            <img src="/storage/images/{{ $item->preview_image }}" alt="" width="70" height="70" class="no-preview-image">
-                        </div>
-                        <div class="text-center d-flex justify-content-center">
-                            <div>
-                                <x-image-button type="add" :itemId="$item->id"/>
-                            </div>
-                        </div>
-                    @else
-                        <div class="image-container">
-                            <img src="/storage/images/{{ $item->preview_image }}" alt="" width="70" height="70" class="preview-image" onclick="window.open('/storage/images/' + '{{ $item->image }}', '_blank')">
-                        </div>
-                        <div class="text-center d-flex justify-content-center">
-                            <div style="margin-right: 2px">
-                                <x-image-button type="update" :itemId="$item->id"/>
-                            </div>
-                            <div style="margin-left: 2px">
-                                <x-image-button type="delete" :itemId="$item->id"/>
-                            </div>
-                        </div>
-                    @endif
-                </div>
-
+                <x-image :item="$item" />
 
                 <div style="flex-grow: 1; padding-left: 10px" class="editable" data-item-id="{{ $item->id }}">{{ $item->name }}</div>
                 <div class="tags-container d-flex align-items-center">
