@@ -56,5 +56,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/items/{id}/upload_image', [ItemController::class, 'uploadImage'])->name('items.uploadImage');
 
 
+    // will delete from production
+    Route::get('/test_images', [ItemController::class, 'testImages']);
+
+    Route::get('/test_form', function () {
+        return view('test_form');
+    });
+
 });
 

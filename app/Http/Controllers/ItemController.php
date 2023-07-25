@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 use App\Models\Item;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
+
 
 class ItemController extends Controller
 {
@@ -106,28 +108,59 @@ class ItemController extends Controller
 
     public function uploadImage($id, Request $request): JsonResponse
     {
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
+        if ($request->hasFile('fileInput')) {
+            $file = $request->file('fileInput');
 
             // Генерируем уникальное имя для файла
             $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
 
-            // Сохраняем файл в папке public/images
+            // Сохраняем файл в папке storage/app/public/images
             $filePath = $file->storeAs('public/images', $fileName);
 
-            // Формируем ссылку на сохраненный файл
+            // Формируем ссылку на сохраненный файл - /storage/images/filename.jpg
             $url = Storage::url($filePath);
 
+
+
+
+            // Создание превью
+            // создаём превьюшку типа Intervention Image
+            $preview = Image::make($file)
+                ->fit(70, 70, function ($constraint) {
+                $constraint->upsize();
+            });
+
+            $previewFileName = 'preview_' . $fileName;
+
+            $previewPath = storage_path('app/public/images/' . $previewFileName);
+            $preview->save($previewPath);
+
+
+//            dd(111);
+
+            // Находим нужный item и присваиеваем ему нужные значения полей
             $item = Item::find($id);
-            // TODO!!!
-            $item->preview_image = $fileName;
+            $item->preview_image = $previewFileName;
             $item->image = $fileName;
             $item->save();
 
-            return response()->json(['success' => true]);
+            return response()->json([
+                'success' => true,
+                'previewImage' => $previewFileName,
+                'image' => $fileName,
+            ]);
         }
 
         return response()->json(['success' => false]);
+    }
+
+
+    public function testImages() {
+        $image = Image::make('/storage/images/grey.jpg');
+
+
+
+        dd($image);
     }
 
 }

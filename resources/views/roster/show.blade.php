@@ -82,7 +82,7 @@
             cursor: pointer;
         }
 
-        .add-preview {
+        .add-image, .update-image, .delete-image {
             cursor: pointer;
         }
 
@@ -137,15 +137,15 @@
     <ul class="list-group mt-2">
         @forelse($items as $item)
             <li class="list-group-item d-flex align-items-center justify-content-between">
-                <div>
+                <div class="imgcont">
                     @if($item->preview_image === 'grey.jpg')
                         <div class="image-container">
                             <img src="/storage/images/{{ $item->preview_image }}" data-full-image="/storage/images/{{ $item->image }}" alt="" width="70" height="70" class="no-preview-image">
                         </div>
                         <div class="text-center d-flex justify-content-center">
                             <div>
-                                <a class="add-preview" data-item-id="{{ $item->id }}">
-                                    <i class="fas fa-plus extra-small add-preview"></i>
+                                <a class="add-image" data-item-id="{{ $item->id }}">
+                                    <i class="fas fa-plus extra-small"></i>
                                 </a>
                             </div>
                         </div>
@@ -155,12 +155,12 @@
                         </div>
                         <div class="text-center d-flex justify-content-center">
                             <div style="margin-right: 2px">
-                                <a href="#">
+                                <a class="update-image">
                                     <i class="fas fa-sync-alt extra-small"></i>
                                 </a>
                             </div>
                             <div style="margin-left: 2px">
-                                <a href="#">
+                                <a class="delete-image">
                                     <i class="fas fa-trash extra-small text-danger"></i>
                                 </a>
                             </div>
@@ -206,22 +206,21 @@
 
 <script>
 
-    $('.add-preview').click(function () {
+    $('.add-image').click(function () {
         // Создаем элемент input типа file
-        let fileInput = document.createElement('input');
-        fileInput.type = 'file';
-
-        // ПОЛУЧИТЬ itemId, передать его в ajax, в методе на сервере менять значение в БД, возвращать в response новый урл (только превью или нет?)
+        let fileInput = document.createElement('input')
+        fileInput.type = 'file'
+        fileInput.setAttribute('id', 'fileInput')
+        fileInput.setAttribute('name', 'fileInput')
 
         let itemId = $(this).attr('data-item-id')
-
+        let imgCont = $(this).closest('.imgcont')
 
         // Добавляем обработчик события изменения файла
         fileInput.addEventListener('change', function() {
-            var file = fileInput.files[0];
 
-            var formData = new FormData();
-            formData.append('file', file);
+            let formData = new FormData()
+            formData.append('fileInput', fileInput.files[0])
 
             $.ajax({
                 url: '/items/' + itemId + '/upload_image',
@@ -235,12 +234,11 @@
                 success: function(response) {
 
                     console.log(response)
+                    // imgCont.html('<div>sdfsdf</div>')
 
-                    // console.log(response.imageUrl)
                     // Обработка успешного ответа от сервера
                     // Можно обновить изображение на странице
 
-                    $('#preview-image').attr('src', response.imageUrl);
                 },
                 error: function(xhr, status, error) {
                     // Обработка ошибки
@@ -249,7 +247,7 @@
         });
 
         // Запускаем окно выбора файла
-        fileInput.click();
+        fileInput.click()
 
     })
 
