@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,89 +7,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
+    <link rel="stylesheet" href="/css/style.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <style>
-        @media (min-width: 1000px) {
-            .container {
-                max-width: 900px;
-            }
-        }
-        .editing {
-            border: 2px solid #000;
-            padding: 4px;
-        }
-
-        .delete-tag, .add-tag {
-            cursor: pointer;
-        }
-
-        .tag-list-container {
-            position: absolute;
-            top: 20px;
-            right: 215px;
-            z-index: 1;
-            background-color: #fff;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .tag-list {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .tag-list li {
-            padding: 5px 10px;
-            margin-bottom: 5px;
-            background-color: #f5f5f5;
-            border-radius: 4px;
-        }
-
-        .tag-list li:last-child {
-            margin-bottom: 0;
-        }
-
-        .tag-list li:hover {
-            background-color: #e9e9e9;
-            cursor: pointer;
-        }
-
-        .user-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px;
-            background-color: #f8f9fa;
-            flex-direction: row-reverse;
-        }
-
-        .image-container {
-            border-radius: 7px;
-            overflow: hidden;
-        }
-
-        .extra-small {
-            font-size: 12px;
-        }
-
-        .preview-image {
-            cursor: pointer;
-        }
-
-        .add-image, .update-image, .delete-image {
-            cursor: pointer;
-        }
-
-    </style>
 </head>
 <body>
+
 @include('includes.head')
+
 <div class="container">
     <div style="display: flex; width: 100%; margin-bottom: 20px">
         <div style="flex-grow: 1;"><a href="{{ route('rosters.index') }}">На главную</a></div>
@@ -151,7 +77,7 @@
                         </div>
                     @else
                         <div class="image-container">
-                            <img src="/storage/images/{{ $item->preview_image }}" data-full-image="/storage/images/{{ $item->image }}" alt="" width="70" height="70" class="preview-image">
+                            <img src="/storage/images/{{ $item->preview_image }}" alt="" width="70" height="70" class="preview-image" onclick="window.open('/storage/images/' + '{{ $item->image }}', '_blank')">
                         </div>
                         <div class="text-center d-flex justify-content-center">
                             <div style="margin-right: 2px">
@@ -213,12 +139,7 @@
 <script>
 
 
-    $('.preview-image').click(function () {
-        let fullImage = $(this).attr('data-full-image');
-        window.open(fullImage, '_blank');
 
-
-    });
 
     function resetFilter() {
         document.getElementById("form_search_item").action = window.location.href;
