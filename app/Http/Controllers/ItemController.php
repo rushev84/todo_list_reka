@@ -99,14 +99,14 @@ class ItemController extends Controller
     {
         $itemId = $request->input('itemId');
         $tagId = $request->input('tagId');
-//
+
         $item = Item::find($itemId);
         $item->tags()->attach($tagId);
 
         return response()->json(['success' => true]);
     }
 
-    public function uploadImage($id, Request $request): JsonResponse
+    public function addImage($id, Request $request): JsonResponse
     {
         if ($request->hasFile('fileInput')) {
             $file = $request->file('fileInput');
@@ -120,9 +120,6 @@ class ItemController extends Controller
             // Формируем ссылку на сохраненный файл - /storage/images/filename.jpg
             $url = Storage::url($filePath);
 
-
-
-
             // Создание превью
             // создаём превьюшку типа Intervention Image
             $preview = Image::make($file)
@@ -134,9 +131,6 @@ class ItemController extends Controller
 
             $previewPath = storage_path('app/public/images/' . $previewFileName);
             $preview->save($previewPath);
-
-
-//            dd(111);
 
             // Находим нужный item и присваиеваем ему нужные значения полей
             $item = Item::find($id);
@@ -152,15 +146,6 @@ class ItemController extends Controller
         }
 
         return response()->json(['success' => false]);
-    }
-
-
-    public function testImages() {
-        $image = Image::make('/storage/images/grey.jpg');
-
-
-
-        dd($image);
     }
 
 }

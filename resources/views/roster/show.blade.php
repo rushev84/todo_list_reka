@@ -155,7 +155,7 @@
                         </div>
                         <div class="text-center d-flex justify-content-center">
                             <div style="margin-right: 2px">
-                                <a class="update-image">
+                                <a class="add-image" data-item-id="{{ $item->id }}">
                                     <i class="fas fa-sync-alt extra-small"></i>
                                 </a>
                             </div>
@@ -223,7 +223,7 @@
             formData.append('fileInput', fileInput.files[0])
 
             $.ajax({
-                url: '/items/' + itemId + '/upload_image',
+                url: '/items/' + itemId + '/add_image',
                 method: 'POST',
                 data: formData,
                 headers: {

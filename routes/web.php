@@ -53,11 +53,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/items/add_tag', [ItemController::class, 'addTag'])->name('items.addTag');
     Route::post('/items/delete_tag', [ItemController::class, 'deleteTag'])->name('items.deleteTag');
 
-    Route::post('/items/{id}/upload_image', [ItemController::class, 'uploadImage'])->name('items.uploadImage');
+    Route::post('/items/{id}/add_image', [ItemController::class, 'addImage'])->name('items.addImage');
 
 
     // will delete from production
-    Route::get('/test_images', [ItemController::class, 'testImages']);
 
     Route::get('/test_form', function () {
         return view('test_form');
