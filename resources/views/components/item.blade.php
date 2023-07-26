@@ -6,10 +6,21 @@
     <div style="flex-grow: 1; padding-left: 10px" class="editable" data-item-id="{{ $item->id }}">{{ $item->name }}</div>
     <div class="tags-container d-flex align-items-center">
         <div class="tags mr-20">
+            <div class="d-flex">
             @foreach($item->tags as $tag)
-                <span class="badge bg-info" id="{{ $tag->id }}">{{ $tag->name }}&nbsp;<i class="fas fa-times delete-tag"></i></span>
+                <div style="margin-right: 5px" class="badge bg-info d-flex" id="{{ $tag->id }}">
+                    <div style="margin-right: 5px">
+                        {{ $tag->name }}
+                    </div>
+                    <div class="delete-tag">
+                        <i class="fas fa-times delete-tag"></i>
+                    </div>
+                </div>
             @endforeach
-            <span class="badge bg-primary plus-tag"><i class="fas fa-plus"></i></span>
+                <div class="badge bg-primary plus-tag">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </div>
         </div>
         <div class="tag-list-container" style="display: none;">
             <ul class="tag-list">

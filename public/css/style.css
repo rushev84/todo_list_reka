@@ -70,6 +70,6 @@
     cursor: pointer;
 }
 
-.add-image, .update-image, .delete-image {
+.add-image, .update-image, .delete-image, .plus-tag {
     cursor: pointer;
 }
