@@ -6,8 +6,11 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 use App\Models\Item;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+
+use App\View\Components\Image as ImageComponent;
 
 
 class ItemController extends Controller
@@ -157,9 +160,13 @@ class ItemController extends Controller
         $item = Item::find($id);
         $item->preview_image = 'grey.jpg';
         $item->image = 'grey.jpg';
+
+        $html = Blade::renderComponent(new ImageComponent($item));
+
         $item->save();
 
         return response()->json([
+            'html' => $html,
             'success' => true,
         ]);
     }

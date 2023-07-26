@@ -43,6 +43,7 @@ function attachImageButtonsHandlers() {
                     222
                     </div>`)
 
+
                     attachImageButtonsHandlers()
 
                 },
@@ -71,19 +72,7 @@ function attachImageButtonsHandlers() {
             processData: false,
             contentType: false,
             success: function (response) {
-
-                imgCont.html(`
-                    <div class="image-container">
-                        <img src="/storage/images/grey.jpg" alt="" width="70" height="70" class="no-preview-image">
-                    </div>
-                    <div class="text-center d-flex justify-content-center">
-                        <div>
-                            <a class="add-image" data-item-id="${itemId}">
-                                <i class="fas fa-plus extra-small"></i>
-                            </a>
-                        </div>
-                    </div>`)
-
+                imgCont.html(response.html)
                 attachImageButtonsHandlers()
             },
             error: function (xhr, status, error) {

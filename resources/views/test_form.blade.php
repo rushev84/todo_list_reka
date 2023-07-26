@@ -8,11 +8,8 @@
     <title>Test Form</title>
 </head>
 <body>
-<form id="form_add_item" class="d-flex" method="POST" action="/items/3/upload_image" enctype="multipart/form-data">
+<form id="form_add_item" class="d-flex" method="POST" action="/items/56/delete_image" enctype="multipart/form-data">
 @csrf <!-- добавьте это для защиты от CSRF атак-->
-    <div class="mb-3 me-2 flex-grow-1">
-        <input type="file" id="fileInput" name="fileInput" class="form-control border-primary">
-    </div>
     <div>
         <button type="submit" class="btn btn-primary">Добавить</button>
     </div>

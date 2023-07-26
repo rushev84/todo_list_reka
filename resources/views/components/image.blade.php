@@ -1,4 +1,4 @@
-<div class="imgcont">
+<div>
     @if($item->preview_image === 'grey.jpg')
         <div class="image-container">
             <img src="/storage/images/{{ $item->preview_image }}" alt="" width="70" height="70" class="no-preview-image">

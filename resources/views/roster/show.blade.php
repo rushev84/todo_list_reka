@@ -63,7 +63,9 @@
     <ul class="list-group mt-2">
         @forelse($items as $item)
             <li class="list-group-item d-flex align-items-center justify-content-between">
-                <x-image :item="$item" />
+                <div class="imgcont">
+                    <x-image :item="$item" id="image-{{ $item->id }}"/>
+                </div>
 
                 <div style="flex-grow: 1; padding-left: 10px" class="editable" data-item-id="{{ $item->id }}">{{ $item->name }}</div>
                 <div class="tags-container d-flex align-items-center">
