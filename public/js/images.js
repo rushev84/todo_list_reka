@@ -30,22 +30,8 @@ function attachImageButtonsHandlers() {
                 processData: false,
                 contentType: false,
                 success: function (response) {
-
-                    imgCont.html(`<div class="image-container">
-                    <img src="/storage/images/${response.previewImage}" alt="" width="70" height="70" data-full-image="${response.image}" class="preview-image">
-                    </div>
-                    <div class="text-center d-flex justify-content-center">
-                    <div style="margin-right: 2px">
-                    111
-                    </div>
-                    <div style="margin-left: 2px">
-                    <x-image-button type="delete" :itemId="$item->id"/>
-                    222
-                    </div>`)
-
-
+                    imgCont.html(response.html)
                     attachImageButtonsHandlers()
-
                 },
                 error: function (xhr, status, error) {
                     // Обработка ошибки
@@ -55,7 +41,6 @@ function attachImageButtonsHandlers() {
 
         // Запускаем окно выбора файла
         fileInput.click()
-
     });
 
     $('.delete-image').click(function () {

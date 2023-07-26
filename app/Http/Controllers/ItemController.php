@@ -141,10 +141,11 @@ class ItemController extends Controller
             $item->image = $fileName;
             $item->save();
 
+            $html = Blade::renderComponent(new ImageComponent($item));
+
             return response()->json([
                 'success' => true,
-                'previewImage' => $previewFileName,
-                'image' => $fileName,
+                'html' => $html,
             ]);
         }
 
@@ -160,15 +161,13 @@ class ItemController extends Controller
         $item = Item::find($id);
         $item->preview_image = 'grey.jpg';
         $item->image = 'grey.jpg';
+        $item->save();
 
         $html = Blade::renderComponent(new ImageComponent($item));
 
-        $item->save();
-
         return response()->json([
-            'html' => $html,
             'success' => true,
+            'html' => $html,
         ]);
     }
-
 }
