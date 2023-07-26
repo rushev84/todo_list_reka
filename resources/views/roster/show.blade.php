@@ -38,7 +38,7 @@
         <div class="input-group mb-2">
             <input type="text" id="search_input" class="form-control" name="searchText" placeholder="Текст...">
             <button type="submit" class="btn btn-primary">Применить</button>
-            <button type="button" class="btn btn-warning" onclick="resetFilter()">Сбросить</button>
+            <button type="button" id="reset-filter" class="btn btn-warning">Сбросить</button>
         </div>
         <div class="mb-3">
             <div class="text-secondary"><b>Только задачи с тегами:</b></div>
@@ -76,19 +76,10 @@
 <script>
     const token = '{{ csrf_token() }}'
 </script>
+<script src="/js/filter.js"></script>
 <script src="/js/images.js"></script>
 
-
-
-
-
 <script>
-
-    function resetFilter() {
-        document.getElementById("form_search_item").action = window.location.href;
-        document.getElementById("form_search_item").submit();
-    }
-
     $(document).ready(function() {
 
         $('.plus-tag').click(function () {
