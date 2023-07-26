@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
 use App\View\Components\Image as ImageComponent;
-
+use App\View\Components\Item as ItemComponent;
 
 class ItemController extends Controller
 {
@@ -32,11 +32,12 @@ class ItemController extends Controller
         $item->preview_image = 'grey.jpg';
         $item->save();
 
-        // Возвращаем успешный ответ с идентификатором новой записи
+        $html = Blade::renderComponent(new ItemComponent($item, $this->user->tags));
+
         return response()
             ->json([
                 'success' => true,
-                'itemId' => $item->id,
+                'html' => $html,
             ])
             ->header('Content-Type', 'application/json');
     }

@@ -1,6 +1,10 @@
 
 function attachImageButtonsHandlers() {
 
+
+
+
+
     $('.add-image').click(function () {
 
         // Создаем элемент input типа file
