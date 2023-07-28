@@ -13,7 +13,7 @@
                 <div class="card-header">Регистрация</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register.store') }}">
                         @csrf
 
                         <div class="form-group mb-4">
